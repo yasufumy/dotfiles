@@ -97,9 +97,11 @@ if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
 
     " statusline
     NeoBundle 'bling/vim-airline'
-      let g:airline_theme = 'powerlineish'
-      " use powerline font
-      let g:airline_powerline_fonts = 1 
+        let g:airline_theme = 'powerlineish'
+        " use powerline font
+        if !exists('g:airline_symbols')
+            let g:airline_powerline_fonts = 1
+        endif
 
     call neobundle#end()
 
