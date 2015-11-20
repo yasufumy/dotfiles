@@ -122,7 +122,11 @@ if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
         endif
         " use airline-tab
         let g:airline#extensions#tabline#enabled = 1
-
+        " display tabline if tab exists
+        let g:airline#extensions#tabline#show_tabs = 0
+        let g:airline#extensions#tabline#show_buffers = 0
+        let g:airline#extensions#tabline#tab_min_count = 1
+        let g:airline#extensions#tabline#buffer_min_count = 1
     call neobundle#end()
 
     NeoBundleCheck
