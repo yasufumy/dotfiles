@@ -120,6 +120,8 @@ if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
             let g:airline_symbols.paste = '∥'
             let g:airline_symbols.whitespace = 'Ξ'
         endif
+        " use airline-tab
+        let g:airline#extensions#tabline#enabled = 1
 
     call neobundle#end()
 
