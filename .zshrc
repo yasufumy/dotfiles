@@ -30,6 +30,7 @@ setup_bundles() {
         local -a modules_path
         modules_path=(
             ~/.zsh/*.(sh|zsh)
+            ~/.modules/*.(sh|zsh)
         )
 
         local f
