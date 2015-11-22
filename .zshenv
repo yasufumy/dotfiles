@@ -28,5 +28,10 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # ls command colors
 export LSCOLORS=exfxcxdxbxegedabagacad
 
-# Add ~/bin to PATH
-export PATH=~/bin:"$PATH"
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# virtualenv
+eval "$(pyenv virtualenv-init -)"
