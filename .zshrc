@@ -27,15 +27,13 @@ setup_bundles() {
     echo -e "$fg[blue]Starting $SHELL....$reset_color\n"
 
     modules() {
-        e_arrow $(e_header "Setup modules...")
-
         local -a modules_path
         modules_path=(
             ~/.zsh/*.(sh|zsh)
         )
 
         local f
-        for f ($modules_path) source "$f" && echo "loading $f" | e_indent 2
+        for f ($modules_path) source "$f" && echo "loading $f"
     }
 
     # has_plugin returns true if $1 plugin are installed and available
@@ -53,21 +51,20 @@ setup_bundles() {
     # bundles checks if antigen plugins are valid and available
     bundles() {
         if [[ -f $antigen/antigen.zsh ]]; then
-            e_arrow $(e_header "Setup antigen...")
             source $antigen/antigen.zsh
 
             # check plugins installed by antigen
             local p
             for p in ${antigen_plugins[@]}
             do
-                echo "checking... $p" | e_indent 2
+                echo "checking... $p"
                 antigen-bundle "$p"
             done
 
             # apply antigen
             antigen-apply
         else
-            has "git" && echo "$fg[red]To make your shell strong, run 'bundle_install'.$reset_color"
+            echo "$fg[red]To make your shell strong, run 'bundle_install'.$reset_color"
         fi
     }
 
