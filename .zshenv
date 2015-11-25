@@ -4,6 +4,9 @@ export LANG="${LANGUAGE}"
 export LC_ALL="${LANGUAGE}"
 export LC_CTYPE="${LANGUAGE}"
 
+# path
+export PATH="/usr/local/bin:${PATH}"
+
 # Editor
 export EDITOR=vim
 export CVSEDITOR="${EDITOR}"
@@ -29,9 +32,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export LSCOLORS=exfxcxdxbxegedabagacad
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-# virtualenv
-eval "$(pyenv virtualenv-init -)"
+if (( $+commands[pyenv] )); then
+    # For Homebrew installed pyenv.
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+elif [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
+    # For git-cloned pyenv.
+    export PYENV_ROOT="${HOME}/.pyenv"
+    path=(${PYENV_ROOT}/bin(N-/^W) ${path})
+    eval "$(pyenv init -)"
+fi

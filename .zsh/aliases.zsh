@@ -19,3 +19,8 @@ alias glg="git log --graph"
 
 # tmux
 alias tmux="tmux -u"
+
+# update
+alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
+alias update-all="brew update && brew upgrade --all && brew cleanup && brew-cask-upgrade && brew-cask cleanup && softwareupdate -ia"
+alias pip-update="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"

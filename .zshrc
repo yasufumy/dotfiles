@@ -18,6 +18,7 @@ autoload     run-help-svn
 
 antigen=~/.antigen
 antigen_plugins=(
+    "bobthecow/git-flow-completion"
     "zsh-users/zsh-completions"
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-syntax-highlighting"
