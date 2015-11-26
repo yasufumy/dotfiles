@@ -77,6 +77,8 @@ setup_bundles() {
 zsh_startup() {
     # setup_bundles return true if antigen plugins and some modules are valid
     setup_bundles || return 1
+    # tmux
+    tmux_automatically_attach_session
 }
 
 if zsh_startup; then
