@@ -20,6 +20,9 @@ alias glg="git log --graph"
 # tmux
 alias tmux="tmux -u"
 
+# matlab
+alias matlab="/Applications/MATLAB_R2015a.app/bin/matlab -nosplash -nodisplay"
+
 # update
 alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
 alias update-all="brew update && brew upgrade --all && brew cleanup && brew-cask-upgrade && brew-cask cleanup && softwareupdate -ia"
