@@ -2,7 +2,7 @@ DOTPATH=~/.dotfiles
 GITHUB_URL="https://github.com/yasufume/dotfiles.git"
 
 # git が使えるなら git
-if type "$1" >/dev/null 2>&1; then
+if type "git" >/dev/null 2>&1; then
     git clone --recursive "$GITHUB_URL" "$DOTPATH"
 else
     echo "git required"
