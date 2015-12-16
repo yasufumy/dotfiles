@@ -241,6 +241,8 @@ if zsh_startup; then
         # pyenv
         if ! [ -z $VIRTUAL_ENV ]; then
             env='('`echo $(basename $VIRTUAL_ENV)`')'
+        else
+            env=''
         fi
         # git
         if has '__git_ps1'; then
