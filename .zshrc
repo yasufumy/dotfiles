@@ -173,7 +173,7 @@ if zsh_startup; then
     # git
     zstyle ':completion:*:*:git:*' script ~/.git-completion.zsh
 
-    # alias
+    ### alias ###
     # default command
     alias ls="ls -G"
     alias rm="rm -iv"
@@ -200,7 +200,7 @@ if zsh_startup; then
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
     alias update-all="brew update && brew upgrade --all && brew cleanup && brew cask update && brew cask cleanup && softwareupdate -ia"
     alias pip-update="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"
-    # PROMPT
+    ### PROMPT ###
     #
     terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
     left_down_prompt_preexec() {
@@ -241,6 +241,11 @@ if zsh_startup; then
     setopt transient_rprompt
 
     r-prompt() {
+        # pyenv
+        if ! [ -z $VIRTUAL_ENV ]; then
+            env='('`echo $(basename $VIRTUAL_ENV)`')'
+        fi
+        # git
         if has '__git_ps1'; then
             export GIT_PS1_SHOWDIRTYSTATE=1
             export GIT_PS1_SHOWSTASHSTATE=1
@@ -249,10 +254,10 @@ if zsh_startup; then
             export GIT_PS1_DESCRIBE_STYLE="branch"
             export GIT_PS1_SHOWCOLORHINTS=0
             RPROMPT='%{'${fg[red]}'%}'`echo $(__git_ps1 "(%s)")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%}'
-            RPROMPT+=$' at %{${fg[blue]}%}[%~]%{${reset_color}%}'
+            RPROMPT+=$' [%{${fg[blue]}%}%~$env%{${reset_color}%}]'
             RPROMPT+='${p_buffer_stack}'
         else
-            RPROMPT='[%{$fg[blue]%}%~%{$reset_color%}]'
+            RPROMPT='[%{$fg[blue]%}%~$env%{$reset_color%}]'
         fi
     }
     add-zsh-hook precmd r-prompt
