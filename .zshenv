@@ -32,13 +32,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export LSCOLORS=exfxcxdxbxegedabagacad
 
 # pyenv
-if (( $+commands[pyenv] )); then
-    # For Homebrew installed pyenv.
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-elif [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
+if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
     # For git-cloned pyenv.
     export PYENV_ROOT="${HOME}/.pyenv"
     path=(${PYENV_ROOT}/bin(N-/^W) ${path})
     eval "$(pyenv init -)"
+elif (( $+commands[pyenv] )); then
+    # For Homebrew installed pyenv.
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 fi
