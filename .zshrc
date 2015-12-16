@@ -170,9 +170,6 @@ if zsh_startup; then
     zstyle ':completion:*' list-separator '-->'
     zstyle ':completion:*:manuals' separate-sections true
 
-    # git
-    zstyle ':completion:*:*:git:*' script ~/.git-completion.zsh
-
     ### alias ###
     # default command
     alias ls="ls -G"
