@@ -173,6 +173,9 @@ if zsh_startup; then
     ### alias ###
     # default command
     alias ls="ls -G"
+    alias ll="ls -l"
+    alias la="ls -a"
+    alias lla="ls -al"
     alias rm="rm -iv"
     alias mv="mv -iv"
     alias cp="cp -iv"
@@ -181,6 +184,7 @@ if zsh_startup; then
 
     # git
     alias gst="git status"
+    alias gsth="git stash"
     alias gad="git add"
     alias gci="git commit -a --allow-empty-message -m ''"
     alias gph="git push"
@@ -189,6 +193,7 @@ if zsh_startup; then
     alias gbr="git branch"
     alias gco="git checkout"
     alias glg="git log --graph"
+    alias gfl="git-flow"
 
     # matlab
     alias matlab="/Applications/MATLAB_R2015a.app/bin/matlab -nosplash -nodisplay"
