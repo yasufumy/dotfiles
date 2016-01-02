@@ -36,7 +36,7 @@ function has() {
 }
 
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
-function is_linux() { [[ $SHELL_PLATFORM == 'linux' || $SHELL_PLATFORM == 'bsd' ]]; }
+function is_linux() { [[ $OSTYPE == linux* ]]; }
 function is_screen_running() { [ ! -z "$STY" ]; }
 function is_tmux_runnning() { [ ! -z "$TMUX" ]; }
 
