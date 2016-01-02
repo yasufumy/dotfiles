@@ -197,6 +197,9 @@ if zsh_startup; then
     alias gco="git checkout"
     alias glg="git log --graph"
     alias gfl="git-flow"
+    alias gdf="git diff"
+    alias gmrg="git merge"
+    alias grb="git rebase"
 
     # matlab
     alias matlab="/Applications/MATLAB_R2015a.app/bin/matlab -nosplash -nodisplay"
