@@ -36,7 +36,7 @@ function has() {
 }
 
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
-
+function is_linux() { [[ $SHELL_PLATFORM == 'linux' || $SHELL_PLATFORM == 'bsd' ]]; }
 function is_screen_running() { [ ! -z "$STY" ]; }
 function is_tmux_runnning() { [ ! -z "$TMUX" ]; }
 
@@ -46,8 +46,7 @@ function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 
 function is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
 
-function tmux_automatically_attach_session()
-{
+function tmux_automatically_attach_session() {
     if is_screen_or_tmux_running; then
         ! is_exists 'tmux' && return 1
     else
@@ -172,7 +171,11 @@ if zsh_startup; then
 
     ### alias ###
     # default command
-    alias ls="ls -G"
+    if is_linux; then
+        alias ls="ls --color"
+    elif is_osx; then
+        alias ls="ls -G"
+    fi
     alias ll="ls -l"
     alias la="ls -a"
     alias lla="ls -al"
@@ -194,6 +197,9 @@ if zsh_startup; then
     alias gco="git checkout"
     alias glg="git log --graph"
     alias gfl="git-flow"
+    alias gdf="git diff"
+    alias gmrg="git merge"
+    alias grb="git rebase"
 
     # matlab
     alias matlab="/Applications/MATLAB_R2015a.app/bin/matlab -nosplash -nodisplay"
