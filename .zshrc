@@ -25,6 +25,7 @@ antigen_plugins=(
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-syntax-highlighting"
 )
+bindkey -e
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
 function is_exists() {
@@ -189,10 +190,11 @@ if zsh_startup; then
     alias gst="git status"
     alias gsth="git stash"
     alias gad="git add"
-    alias gci="git commit -a --allow-empty-message -m ''"
+    alias gcino="git commit -a --allow-empty-message -m ''"
+    alias gci="git commit"
+    alias gcim="git commit -m"
     alias gph="git push"
     alias gpl="git pull"
-    alias gcim="git commit -m"
     alias gbr="git branch"
     alias gco="git checkout"
     alias glg="git log --graph"
@@ -215,28 +217,29 @@ if zsh_startup; then
         print -rn -- $terminfo[el]
     }
     add-zsh-hook preexec left_down_prompt_preexec
-    function zle-keymap-select zle-line-init zle-line-finish {
-        case $KEYMAP in
-            main|viins)
-                PROMPT_2="$fg[black]-- INSERT --$reset_color"
-                ;;
-            vicmd)
-                PROMPT_2="$fg[white]-- NORMAL --$reset_color"
-                ;;
-            vivis|vivli)
-                PROMPT_2="$fg[yellow]-- VISUAL --$reset_color"
-                ;;
-            virep)
-                PROMPT_2="$fg[red]-- REPLACE --$reset_color"
-                ;;
-        esac
+    #function zle-keymap-select zle-line-init zle-line-finish {
+    function zle-line-init zle-line-finish {
+        #case $KEYMAP in
+        #    main|viins)
+        #        PROMPT_2="$fg[black]-- INSERT --$reset_color"
+        #        ;;
+        #    vicmd)
+        #        PROMPT_2="$fg[white]-- NORMAL --$reset_color"
+        #        ;;
+        #    vivis|vivli)
+        #        PROMPT_2="$fg[yellow]-- VISUAL --$reset_color"
+        #        ;;
+        #    virep)
+        #        PROMPT_2="$fg[red]-- REPLACE --$reset_color"
+        #        ;;
+        #esac
         PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
         zle reset-prompt
     }
 
     zle -N zle-line-init
     zle -N zle-line-finish
-    zle -N zle-keymap-select
+    #zle -N zle-keymap-select
     zle -N edit-command-line
 
     PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
