@@ -173,13 +173,13 @@ if zsh_startup; then
     ### alias ###
     # default command
     if is_linux; then
-        alias ls="ls --color"
+        alias ls="ls --color -F"
     elif is_osx; then
-        alias ls="ls -G"
+        alias ls="ls -GF"
     fi
-    alias ll="ls -l"
-    alias la="ls -a"
-    alias lla="ls -al"
+    alias ll="ls -lF"
+    alias la="ls -aF"
+    alias lla="ls -alF"
     alias rm="rm -iv"
     alias mv="mv -iv"
     alias cp="cp -iv"
