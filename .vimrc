@@ -96,7 +96,7 @@ if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
     NeoBundle 'altercation/vim-colors-solarized'
 
     " statusline
-    NeoBundle 'bling/vim-airline'
+    NeoBundle 'vim-airline/vim-airline'
         let g:airline_theme = 'powerlineish'
         " if mac, use powerline font
         if has('mac') || has('macunix')
@@ -127,6 +127,9 @@ if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
         let g:airline#extensions#tabline#show_buffers = 0
         let g:airline#extensions#tabline#tab_min_count = 1
         let g:airline#extensions#tabline#buffer_min_count = 1
+
+    NeoBundle 'vim-airline/vim-airline-themes'
+
     call neobundle#end()
 
     NeoBundleCheck
