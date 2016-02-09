@@ -252,6 +252,8 @@ set textwidth=0
 set colorcolumn=80
 " display cursor
 set ruler
+" hightlight cursor line
+set cursorline
 " display command autocomplete on statusline
 set wildmenu
 " display statusline
