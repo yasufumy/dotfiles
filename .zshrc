@@ -1,4 +1,9 @@
-fpath=(/usr/local/share/zsh/site-functions(N-/) $fpath)
+typeset -gx -U fpath
+fpath=( \
+    ~/.zsh/completion(N-/) \
+    /usr/local/share/zsh/site-functions(N-/) \
+    $fpath \
+    )
 
 # autoload
 autoload -U  run-help
