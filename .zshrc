@@ -1,4 +1,9 @@
-fpath=(/usr/local/share/zsh/site-functions(N-/) $fpath)
+typeset -gx -U fpath
+fpath=( \
+    ~/.zsh/completion(N-/) \
+    /usr/local/share/zsh/site-functions(N-/) \
+    $fpath \
+    )
 
 # autoload
 autoload -U  run-help
@@ -35,7 +40,6 @@ function is_exists() {
 function has() {
     is_exists "$@"
 }
-
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
 function is_linux() { [[ $OSTYPE == linux* ]]; }
 function is_screen_running() { [ ! -z "$STY" ]; }
@@ -48,43 +52,43 @@ function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 function is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
 
 function tmux_automatically_attach_session() {
+    is_ssh_running && exit
+
     if is_screen_or_tmux_running; then
-        ! is_exists 'tmux' && return 1
+        if is_tmux_runnning; then
+            export DISPLAY="$TMUX"
+        elif is_screen_running; then
+            # For GNU screen
+        fi
     else
-        if shell_has_started_interactively && ! is_ssh_running; then
-            if ! is_exists 'tmux'; then
-                echo 'Error: tmux command not found' 2>&1
-                return 1
+        #if shell_has_started_interactively && ! is_ssh_running; then
+        if ! is_ssh_running; then
+            if ! has "tmux"; then
+                echo "tmux not found" 1>&2
+                exit 1
             fi
 
             if tmux has-session >/dev/null 2>&1 && tmux list-sessions | grep -qE '.*]$'; then
                 # detached session exists
-                tmux list-sessions
-                echo -n "Tmux: attach? (y/N/num) "
+                tmux list-sessions | perl -pe 's/(^.*?):/\033[31m$1:\033[m/'
+                echo -n "Tmux: attach? (y/N num/session-name) "
                 read
                 if [[ "$REPLY" =~ ^[Yy]$ ]] || [[ "$REPLY" == '' ]]; then
                     tmux attach-session
                     if [ $? -eq 0 ]; then
                         echo "$(tmux -V) attached session"
-                        return 0
+                        exit
                     fi
-                elif [[ "$REPLY" =~ ^[0-9]+$ ]]; then
+                elif tmux list-sessions | grep -q "^$REPLY:"; then
                     tmux attach -t "$REPLY"
                     if [ $? -eq 0 ]; then
                         echo "$(tmux -V) attached session"
-                        return 0
+                        exit
                     fi
                 fi
             fi
 
-            if is_osx && is_exists 'reattach-to-user-namespace'; then
-                # on OS X force tmux's default command
-                # to spawn a shell in the user's namespace
-                tmux_config=$(cat $HOME/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l $SHELL"'))
-                tmux -f <(echo "$tmux_config") new-session && echo "$(tmux -V) created new session supported OS X"
-            else
-                tmux new-session && echo "tmux created new session"
-            fi
+            tmux new-session && echo "tmux created new session"
         fi
     fi
 }
@@ -203,8 +207,8 @@ if zsh_startup; then
     alias gmrg="git merge"
     alias grb="git rebase"
 
-    # matlab
-    alias matlab="/Applications/MATLAB_R2015a.app/bin/matlab -nosplash -nodisplay"
+    # labnet
+    alias labnet="ssh -N -f -L localhost:8088:sara:80 yasufumi@peter.pi.titech.ac.jp"
 
     # update
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
@@ -278,4 +282,16 @@ if zsh_startup; then
     # Other PROMPT
     #
     SPROMPT="%{${fg[red]}%}Did you mean?: %R -> %r [nyae]? %{${reset_color}%}"
+
+    # setup pyenv
+    if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
+        # For git-cloned pyenv.
+        export PYENV_ROOT="${HOME}/.pyenv"
+        path=(${PYENV_ROOT}/bin(N-/^W) ${path})
+        eval "$(pyenv init -)"
+    elif (( $+commands[pyenv] )); then
+        # For Homebrew installed pyenv.
+        eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
+    fi
 fi
