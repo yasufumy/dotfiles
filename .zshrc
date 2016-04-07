@@ -207,6 +207,9 @@ if zsh_startup; then
     alias gmrg="git merge"
     alias grb="git rebase"
 
+    # labnet
+    alias labnet=="ssh -N -f -L localhost:8088:sara:80 yasufumi@peter.pi.titech.ac.jp"
+
     # update
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
     alias update-all="brew update && brew upgrade --all && brew cleanup && brew cask update && brew-cask-upgrade && brew cask cleanup && softwareupdate -ia"
