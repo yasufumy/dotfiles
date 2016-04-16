@@ -243,7 +243,7 @@ set noswapfile
 " display invisuable letters
 set list
 " display line number
-set number
+set relativenumber
 " wrap long text
 set wrap
 " disable auto newline
