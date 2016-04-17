@@ -243,6 +243,8 @@ set noswapfile
 " display invisuable letters
 set list
 " display line number
+set number
+" display line number relative
 set relativenumber
 " wrap long text
 set wrap
