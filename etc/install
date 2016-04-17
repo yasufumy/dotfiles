@@ -1,7 +1,7 @@
 DOTPATH=~/.dotfiles
 GITHUB_URL="https://github.com/yasfmy/dotfiles.git"
 
-# git が使えるなら git
+# use git if it's avaiable
 if type "git" >/dev/null 2>&1; then
     git clone --recursive "$GITHUB_URL" "$DOTPATH"
 else
@@ -13,7 +13,7 @@ if [ $? -ne 0 ]; then
     echo "not found: $DOTPATH"
 fi
 
-# 移動できたらリンクを実行する
+# execute link if move directory
 for f in .??*; do
     [ "$f" = ".git" ] && continue
 
