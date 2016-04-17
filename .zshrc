@@ -201,7 +201,7 @@ if zsh_startup; then
     alias gpl="git pull"
     alias gbr="git branch"
     alias gco="git checkout"
-    alias glg="git log --graph"
+    alias glg="git graph"
     alias gfl="git-flow"
     alias gdf="git diff"
     alias gmrg="git merge"
