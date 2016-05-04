@@ -1,197 +1,270 @@
 if 0 | endif
 
-if has('vim_starting')
-    if &compatible
-        set nocompatible
-    endif
-    " vimrc encoding
-    " scriptencoding utf-8
-    " initialize runtimepath
-    set runtimepath&
+" when vim was invoked by 'sudo' command
+if exists('$SUDO_USER') || exists('$GIT_DIR')
+  finish
 endif
 
-" variables
-let $DOTVIM = expand('~/.vim')
-let $MYVIMRC = expand('~/.vimrc')
-let $VIMBUNDLE = $DOTVIM . '/bundle'
-let $NEOBUNDLEPATH = $VIMBUNDLE . '/neobundle.vim'
+let s:is_mac = (has('mac') || has('macunix') || has('gui_macvim') ||
+            \    (!executable('xdg-open') &&
+            \    system('uname') =~? '^darwin'))
+let s:is_linux = !s:is_mac && has('unix')
 
-" Add neobundle to runtimepath.
-if has('vim_starting') && isdirectory($NEOBUNDLEPATH)
-    set runtimepath+=$NEOBUNDLEPATH
+function! s:vimrc_environment()
+  let env = {}
+
+  let env.is_starting = has('vim_starting')
+
+  " vim
+  let vimpath = expand('~/.vim')
+
+  let env.path = {
+        \ 'vim':     vimpath,
+        \ }
+
+  return env
+endfunction
+
+" s:env is an environment variable in vimrc
+let s:env   = s:vimrc_environment()
+let s:true  = 1
+let s:false = 0
+
+if s:env.is_starting
+  " Define the entire vimrc encoding
+  scriptencoding utf-8
+  " Initialize runtimepath
+  set runtimepath&
+
+  " Check if there are plugins not to be installed
+  augroup vimrc-check-plug
+    autocmd!
+    autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
+  augroup END
+
 endif
 
-" neobundle
-if stridx(&runtimepath, $NEOBUNDLEPATH) != -1
-    call neobundle#begin($VIMBUNDLE)
-    NeoBundleFetch 'Shougo/neobundle.vim'
+" vim-plug
+let s:plug = {
+      \ "plug": expand(s:env.path.vim) . "/autoload/plug.vim",
+      \ "base": expand(s:env.path.vim) . "/plugged",
+      \ "url": "https://raw.github.com/junegunn/vim-plug/master/plug.vim",
+      \ }
 
-    NeoBundle "Shougo/vimproc", {
-      \ "build": {
-      \   "windows"  : "make -f make_mingw32.mak",
-      \   "cygwin"   : "make -f make_cygwin.mak",
-      \   "mac"      : "make -f make_mac.mak",
-      \   "unix"     : "make -f make_unix.mak",
-      \ }}
+" check if there is plug.vim
+function! s:plug.ready()
+  return filereadable(self.plug)
+endfunction
 
-    " filer
-    NeoBundleLazy "Shougo/vimfiler", {
-          \ "depends": ["Shougo/unite.vim"],
-          \ "autoload": {
-          \ "commands": ["VimFilerTab", "VimFiler", "VimFilerExplorer"],
-          \ "explorer": 1,
-          \ }}
-    let g:vimfiler_safe_mode_by_default = 0
+if s:plug.ready()
+    " start to manage with vim-plug
+    call plug#begin(s:plug.base)
 
-    " git
-    NeoBundle "tpope/vim-fugitive"
-    NeoBundleLazy "gregsexton/gitv", {
-      \ "depends": ["tpope/vim-fugitive"],
-      \ "autoload": {
-      \   "commands": ["Gitv"],
-      \ }}
+    Plug 'Shougo/vimproc', {'do': 'make'}
 
-    " support for edting
-    NeoBundle 'tpope/vim-surround'
-    NeoBundle 'vim-scripts/Align'
-    NeoBundle 'vim-scripts/YankRing.vim'
-    if has('lua') && v:version >= 703 && has('patch885')
-        NeoBundleLazy 'Shougo/neocomplete.vim', {
-            \ 'autoload': {
-            \   'insert': 1,
-            \ }}
-        let g:neocomplete#enable_at_startup = 1
-        let s:hooks = neobundle#get_hooks("neocomplete.vim")
-        function! s:hooks.on_source(bundle)
-            let g:acp_enableAtStartup = 0
-            let g:neocomplet#enable_smart_case = 1
-        endfunction
+    " file and directory
+    Plug 'Shougo/vimfiler', {'on': ['VimFilerTab', 'VimFiler', 'VimFilerExplorer']}
+    Plug 'Shougo/unite.vim'
+
+    " compl
+    Plug 'tpope/vim-fugitive'
+    if has('lua')
+        Plug 'Shougo/neocomplete.vim'
     else
-        NeoBundleLazy 'Shougo/neocomplcache.vim', {
-            \ 'autoload': {
-            \   'insert': 1,
-            \ }}
-        let g:neocomplcache_enable_at_startup = 1
-        let s:hooks = neobundle#get_hooks("neocomplcache.vim")
-        function! s:hooks.on_source(bundle)
-            let g:acp_enableAtStartup = 0
-            let g:neocomplcache_enable_smart_case = 1
-        endfunction
+        Plug 'Shougo/neocomplcache'
     endif
-    NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3"],
-      \ },
-      \ "build": {
-      \   "mac": "pip install jedi",
-      \   "unix": "pip install jedi",
-      \ }}
-    let s:hooks = neobundle#get_hooks('jedi-vim')
-    function! s:hooks.on_source(bundle)
-        let g:jedi#popup_select_first = 0
-        let g:jedi#show_call_signatures = 0
-    endfunction
+    Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+
+    " useful
+    Plug 'gregsexton/gitv', {'on': 'Gitv'}
+    Plug 'tpope/vim-surround'
+    Plug 'vim-scripts/Align'
+    Plug 'vim-scripts/YankRing.vim'
+    Plug 'osyo-manga/vim-anzu'
+
 
     " colorscheme
-    NeoBundle 'altercation/vim-colors-solarized'
+    Plug 'altercation/vim-colors-solarized'
 
     " statusline
-    NeoBundle 'vim-airline/vim-airline'
-        let g:airline_theme = 'powerlineish'
-        " if mac, use powerline font
-        if has('mac') || has('macunix')
-            let g:airline_powerline_fonts = 1
-        else
-            if !exists('g:airline_symbols')
-                let g:airline_symbols = {}
-            endif
-            " unicode symbols
-            let g:airline_left_sep = '»'
-            let g:airline_left_sep = '▶'
-            let g:airline_right_sep = '«'
-            let g:airline_right_sep = '◀'
-            let g:airline_symbols.crypt = '🔒'
-            let g:airline_symbols.linenr = '␊'
-            let g:airline_symbols.linenr = '␤'
-            let g:airline_symbols.linenr = '¶'
-            let g:airline_symbols.branch = '⎇'
-            let g:airline_symbols.paste = 'ρ'
-            let g:airline_symbols.paste = 'Þ'
-            let g:airline_symbols.paste = '∥'
-            let g:airline_symbols.whitespace = 'Ξ'
-        endif
-        " use airline-tab
-        let g:airline#extensions#tabline#enabled = 1
-        " display tabline if tab exists
-        let g:airline#extensions#tabline#show_tabs = 0
-        let g:airline#extensions#tabline#show_buffers = 0
-        let g:airline#extensions#tabline#tab_min_count = 1
-        let g:airline#extensions#tabline#buffer_min_count = 1
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
-    NeoBundle 'vim-airline/vim-airline-themes'
-
-    call neobundle#end()
-
-    NeoBundleCheck
+    call plug#end()
 else
-    " no neobundle
-    command! NeoBundleInit try | call s:neobundle_init()
-                \| catch /^neobundleinit:/
-                    \|   echohl ErrorMsg
-                    \|   echomsg v:exception
-                    \|   echohl None
-                    \| endtry
-
-    function! s:neobundle_init()
-        redraw | echo "Installing neobundle.vim..."
-        if !isdirectory($VIMBUNDLE)
-            call mkdir($VIMBUNDLE, 'p')
-            echo printf("Creating '%s'.", $VIMBUNDLE)
+    " install vim-plug
+    function! s:plug.init()
+        let ret = system(printf("curl -fLo %s --create-dirs %s", self.plug, self.url))
+        if v:shell_error
+            echomsg 's:plug_init: error occured'
+            return 1
         endif
-        cd $VIMBUNDLE
-
-        if executable('git')
-            call system('git clone git://github.com/Shougo/neobundle.vim')
-            if v:shell_error
-                throw 'neobundleinit: Git error.'
-            endif
-        endif
-
-        set runtimepath& runtimepath+=$NEOBUNDLEPATH
-        call neobundle#rc($VIMBUNDLE)
-        try
-            echo printf("Reloading '%s'", $MYVIMRC)
-            source $MYVIMRC
-        catch
-            echohl ErrorMsg
-            echomsg 'neobundleinit: $MYVIMRC: could not source.'
-            echohl None
-            return 0
-        finally
-            echomsg 'Installed neobundle.vim'
-        endtry
-
-        echomsg 'Finish!'
+        " Restart vim
+        silent! !vim
+        quit!
     endfunction
 
-    autocmd! VimEnter * redraw
-                \ | echohl WarningMsg
-                \ | echo "You should do ':NeoBundleInit' at first!"
-                \ | echohl None
+    command! PlugInit call s:plug.init()
+    " install vim-plug
+    PlugInit
 endif
 
-filetype plugin indent on
+" Add plug's plugins
+let s:plug.plugs = get(g:, 'plugs', {})
+let s:plug.list = keys(s:plug.plugs)
+
+" plugin helper functions
+function! s:plug.is_installed(name)
+  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
+endfunction
+
+function! s:plug.check_installation()
+    if empty(self.plugs)
+        return
+    endif
+
+    let list = []
+    for [name, spec] in items(self.plugs)
+        if !isdirectory(spec.dir)
+            call add(list, spec.uri)
+        endif
+    endfor
+
+    if len(list) > 0
+        let unplugged = map(list, 'substitute(v:val, "^.*github\.com/\\(.*/.*\\)\.git$", "\\1", "g")')
+        " Ask whether installing plugs like NeoBundle
+        echomsg 'Not installed plugs: ' . string(unplugged)
+        if confirm('Install plugs now?', "yes\nNo", 2) == 1
+            PlugInstall
+            " Close window for vim-plug
+            silent! close
+             " Restart vim
+            silent! !vim
+            quit!
+        endif
+    endif
+endfunction
 
 function! s:has_plugin(name)
-      " Check {name} plugin whether there is in the runtime path
-      let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
-      let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
-      return &rtp =~# '\c\<' . nosuffix . '\>'
-            \   || globpath(&rtp, suffix, 1) != ''
-            \   || globpath(&rtp, nosuffix, 1) != ''
-            \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
-            \   || globpath(&rtp, 'autoload/' . tolower(suffix),1) != ''
+  " Check {name} plugin whether there is in the runtime path
+  let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
+  let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
+  return &rtp =~# '\c\<' . nosuffix . '\>'
+        \   || globpath(&rtp, suffix, 1) != ''
+        \   || globpath(&rtp, nosuffix, 1) != ''
+        \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
+        \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
 endfunction
+
+" plugins setting
+if s:plug.is_installed("vim-plug")
+    function! PlugList(A,L,P)
+      return join(s:plug.list, "\n")
+    endfunction
+
+    command! -nargs=1 -complete=custom,PlugList PlugHas
+          \ if s:plug.is_installed('<args>')
+          \ | echo s:plug.plugs['<args>'].dir
+          \ | endif
+endif
+
+if s:plug.is_installed("vimfiler")
+    let g:vimfiler_safe_mode_by_default = 0
+endif
+
+if s:plug.is_installed("neocomplete.vim")
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#enable_camel_case = 1
+    let g:neocomplete#enable_underbar_completion = 1
+    let g:neocomplete#enable_fuzzy_completion = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#auto_completion_start_length = 2
+    let g:neocomplete#manual_completion_start_length = 0
+    let g:neocomplete#min_keyword_length = 3
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:jedi#auto_vim_configuration = 0
+    let g:neocomplete#sources#omni#input_patterns = {
+          \ 'ruby' : '[^. *\t]\.\w*\|\h\w*::',
+          \}
+    let g:neocomplete#force_omni_input_patterns = {
+          \ 'python': '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+          \}
+
+    let g:neocomplete#enable_auto_delimiter = 1
+    let g:neocomplete#disable_auto_select_buffer_name_pattern =
+          \ '\[Command Line\]'
+    let g:neocomplete#max_list = 100
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+      let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    if !exists('g:neocomplete#sources#omni#functions')
+      let g:neocomplete#sources#omni#functions = {}
+    endif
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#enable_auto_close_preview = 1
+
+    let g:neocomplete#force_omni_input_patterns.markdown =
+          \ ':\w*'
+    let g:neocomplete#force_omni_input_patterns.ruby =
+          \ '[^. *\t]\.\w*\|\h\w*::\w*'
+
+    let g:neocomplete#force_omni_input_patterns.python =
+          \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+    let g:neocomplete#sources#omni#functions.go =
+          \ 'gocomplete#Complete'
+
+    let g:neocomplete#sources#omni#input_patterns.php =
+          \'\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+    let g:neocomplete#fallback_mappings = ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
+endif
+
+if s:plug.is_installed("neocomplcache")
+    let g:neocomplcache_enable_startup = 1
+    let g:acp_enableAtStartup = 0
+    let g:neocomplcache_enable_smart_case = 1
+endif
+
+if s:plug.is_installed("jedi-vim")
+    let g:jedi#popup_select_first = 0
+    let g:jedi#show_call_signatures = 0
+endif
+
+if s:plug.is_installed("vim-anzu")
+    nmap n <Plug>(anzu-n)
+    nmap N <Plug>(anzu-N)
+    nmap * <Plug>(anzu-star)
+    nmap # <Plug>(anzu-sharp)
+    nmap n <Plug>(anzu-n-with-echo)
+    nmap N <Plug>(anzu-N-with-echo)
+    nmap * <Plug>(anzu-star-with-echo)
+    nmap # <Plug>(anzu-sharp-with-echo)
+    augroup vim-anzu
+        autocmd!
+        autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+    augroup END
+endif
+
+if s:plug.is_installed("vim-airline")
+    let g:airline_theme = 'powerlineish'
+    let g:airline_left_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#show_tabs = 0
+    let g:airline#extensions#tabline#show_buffers = 0
+    let g:airline#extensions#tabline#tab_min_count = 1
+    let g:airline#extensions#tabline#buffer_min_count = 1
+endif
+
+if s:plug.is_installed("vim-colors-solarized")
+    " set colorscheme solarized
+    colorscheme solarized
+endif
 
 " search settings
 " don't care about uppercase or lowercase
@@ -261,34 +334,12 @@ set wildmenu
 " display statusline
 set laststatus=2
 " enable syntax highlight
-syntax enable
+syntax enable on
 " dark background
 set background=dark
-if s:has_plugin('vim-colors-solarized')
-    " set colorscheme solarized
-    colorscheme solarized
-endif
 " no visualbell
 set novisualbell t_vb=
 " use these letters below for invisuable letters
-set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
-if $TERM == 'screen'
-    "use 256 color
-    set t_Co=256
-    set term=xterm-256color
-    set termencoding=utf-8
-endif
-" setting for macvim
-if has('gui_macvim')
-    set guifont=Meslo\ LG\ M\ for\ Powerline:h14
-    set guioptions-=T "no toolbar
-    set guioptions-=m "no menubar
-    "no right scrollbar
-    set guioptions-=r
-    set guioptions-=R
-    "no left scrollbar
-    set guioptions-=l
-    set guioptions-=L
-    "no bottom scrollbar
-    set guioptions-=b
-endif
+set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
+"use 256 color
+set t_Co=256
