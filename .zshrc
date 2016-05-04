@@ -190,6 +190,9 @@ if zsh_startup; then
     alias purge="sudo purge"
     alias grep="grep --color"
 
+    # vim
+    alias vi="vim"
+
     # git
     alias gst="git status"
     alias gsth="git stash"
