@@ -40,8 +40,8 @@ if s:env.is_starting
   augroup vimrc-check-plug
     autocmd!
     " VimEnter is fired when vim is excuted with no argument
-    autocmd VimEnter * if !argc() | call s:plug.check_installation()
-                        \ | call s:plug.check_update() | endif
+    autocmd VimEnter * if !argc() | call s:plug.check_update()
+                        \ | call s:plug.check_installation() | endif
   augroup END
 
 endif
