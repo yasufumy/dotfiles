@@ -36,10 +36,12 @@ if s:env.is_starting
   " Initialize runtimepath
   set runtimepath&
 
-  " Check if there are plugins not to be installed
+  " Check if there are plugins not to be installed and update
   augroup vimrc-check-plug
     autocmd!
-    autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
+    " VimEnter is fired when vim is excuted with no argument
+    autocmd VimEnter * if !argc() | call s:plug.check_installation()
+                        \ | call s:plug.check_update() | endif
   augroup END
 
 endif
@@ -143,6 +145,12 @@ function! s:plug.check_installation()
             quit!
         endif
     endif
+endfunction
+
+function! s:plug.check_update()
+    PlugUpdate
+    PlugUpgrade
+    silent! close
 endfunction
 
 function! s:has_plugin(name)
