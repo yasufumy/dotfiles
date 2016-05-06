@@ -36,10 +36,12 @@ if s:env.is_starting
   " Initialize runtimepath
   set runtimepath&
 
-  " Check if there are plugins not to be installed
+  " Check if there are plugins not to be installed and update
   augroup vimrc-check-plug
     autocmd!
-    autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
+    " VimEnter is fired when vim is excuted with no argument
+    autocmd VimEnter * if !argc() | call s:plug.check_update()
+                        \ | call s:plug.check_installation() | endif
   augroup END
 
 endif
@@ -71,7 +73,7 @@ if s:plug.ready()
     if has('lua')
         Plug 'Shougo/neocomplete.vim'
     else
-        Plug 'Shougo/neocomplcache'
+        Plug 'Shougo/neocomplcache.vim'
     endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
@@ -143,6 +145,12 @@ function! s:plug.check_installation()
             quit!
         endif
     endif
+endfunction
+
+function! s:plug.check_update()
+    PlugUpdate
+    PlugUpgrade
+    silent! close
 endfunction
 
 function! s:has_plugin(name)
@@ -224,10 +232,14 @@ if s:plug.is_installed("neocomplete.vim")
     let g:neocomplete#fallback_mappings = ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
 endif
 
-if s:plug.is_installed("neocomplcache")
-    let g:neocomplcache_enable_startup = 1
+if s:plug.is_installed("neocomplcache.vim")
     let g:acp_enableAtStartup = 0
+    let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
+    let g:neocomplcache_min_syntax_length = 3
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 endif
 
 if s:plug.is_installed("jedi-vim")
