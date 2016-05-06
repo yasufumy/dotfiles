@@ -261,7 +261,7 @@ if zsh_startup; then
     r-prompt() {
         # pyenv
         if ! [ -z $VIRTUAL_ENV ]; then
-            env='('`echo $(basename $VIRTUAL_ENV)`')'
+            env='|'`echo $(basename $VIRTUAL_ENV)`
         else
             env=''
         fi
