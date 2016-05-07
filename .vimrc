@@ -315,9 +315,9 @@ set matchtime=2
 set backspace=indent,eol,start
 " clipboard settings
 if has('unnamedplus')
-    set clipboard& clipboard+=unnamedplus,unnamed
+    set clipboard& clipboard+=unnamedplus,unnamed,autoselect
 else
-    set clipboard& clipboard+=unnamed
+    set clipboard& clipboard+=unnamed,autoselect
 endif
 " delete swap file and backup file
 set nowritebackup
@@ -351,6 +351,7 @@ syntax enable on
 set background=dark
 " no visualbell
 set novisualbell t_vb=
+set noerrorbells
 " use these letters below for invisuable letters
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
 "use 256 color
