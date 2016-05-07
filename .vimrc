@@ -351,6 +351,7 @@ syntax enable on
 set background=dark
 " no visualbell
 set novisualbell t_vb=
+set noerrorbells
 " use these letters below for invisuable letters
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
 "use 256 color
