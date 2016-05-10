@@ -40,10 +40,13 @@ if s:env.is_starting
   augroup vimrc-check-plug
     autocmd!
     " VimEnter is fired when vim is excuted with no argument
-    autocmd VimEnter * if !argc() | call s:plug.check_update()
-                        \ | call s:plug.check_installation() | endif
+    autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
   augroup END
 
+  augroup check-plugs-update
+      autocmd!
+      autocmd VimEnter update if !argc() | call s:plug.check_update() | endif
+  augroup END
 endif
 
 " vim-plug
@@ -266,6 +269,8 @@ if s:plug.is_installed("vim-airline")
     let g:airline_theme = 'powerlineish'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_alt_sep = ''
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#show_tabs = 0
     let g:airline#extensions#tabline#show_buffers = 0
