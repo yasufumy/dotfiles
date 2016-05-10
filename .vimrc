@@ -42,11 +42,6 @@ if s:env.is_starting
     " VimEnter is fired when vim is excuted with no argument
     autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
   augroup END
-
-  augroup check-plugs-update
-      autocmd!
-      autocmd VimEnter update if !argc() | call s:plug.check_update() | endif
-  augroup END
 endif
 
 " vim-plug
@@ -150,11 +145,11 @@ function! s:plug.check_installation()
     endif
 endfunction
 
-function! s:plug.check_update()
-    PlugUpdate
-    PlugUpgrade
-    silent! close
-endfunction
+"function! s:plug.check_update()
+"    PlugUpdate
+"    PlugUpgrade
+"    silent! close
+"endfunction
 
 function! s:has_plugin(name)
   " Check {name} plugin whether there is in the runtime path
