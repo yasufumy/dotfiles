@@ -81,6 +81,7 @@ if s:plug.ready()
     Plug 'vim-scripts/Align'
     Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
+    Plug 'airblade/vim-gitgutter'
 
 
     " colorscheme
