@@ -292,6 +292,7 @@ if zsh_startup; then
         export PYENV_ROOT="${HOME}/.pyenv"
         path=(${PYENV_ROOT}/bin(N-/^W) ${path})
         eval "$(pyenv init -)"
+        eval "$(pyenv virtualenv-init -)"
     elif (( $+commands[pyenv] )); then
         # For Homebrew installed pyenv.
         eval "$(pyenv init -)"
