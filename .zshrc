@@ -49,10 +49,10 @@ function is_screen_or_tmux_running() { is_screen_running || is_tmux_runnning; }
 
 function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 
-function is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
+function is_ssh_running() { [ ! -z "$SSH_CONNECTION" ]; }
 
 function tmux_automatically_attach_session() {
-    is_ssh_running && exit
+    is_ssh_running && return
 
     if is_screen_or_tmux_running; then
         if is_tmux_runnning; then
@@ -253,7 +253,11 @@ if zsh_startup; then
     #zle -N zle-keymap-select
     zle -N edit-command-line
 
-    #PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
+    if is_ssh_running; then
+        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
+    else
+        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%# "
+    fi
 
     # Right PROMPT
     #
