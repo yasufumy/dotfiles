@@ -40,10 +40,8 @@ if s:env.is_starting
   augroup vimrc-check-plug
     autocmd!
     " VimEnter is fired when vim is excuted with no argument
-    autocmd VimEnter * if !argc() | call s:plug.check_update()
-                        \ | call s:plug.check_installation() | endif
+    autocmd VimEnter * if !argc() | call s:plug.check_installation() | endif
   augroup END
-
 endif
 
 " vim-plug
@@ -73,7 +71,7 @@ if s:plug.ready()
     if has('lua')
         Plug 'Shougo/neocomplete.vim'
     else
-        Plug 'Shougo/neocomplcache'
+        Plug 'Shougo/neocomplcache.vim'
     endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
@@ -83,6 +81,7 @@ if s:plug.ready()
     Plug 'vim-scripts/Align'
     Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
+    Plug 'airblade/vim-gitgutter'
 
 
     " colorscheme
@@ -147,11 +146,11 @@ function! s:plug.check_installation()
     endif
 endfunction
 
-function! s:plug.check_update()
-    PlugUpdate
-    PlugUpgrade
-    silent! close
-endfunction
+"function! s:plug.check_update()
+"    PlugUpdate
+"    PlugUpgrade
+"    silent! close
+"endfunction
 
 function! s:has_plugin(name)
   " Check {name} plugin whether there is in the runtime path
@@ -232,10 +231,14 @@ if s:plug.is_installed("neocomplete.vim")
     let g:neocomplete#fallback_mappings = ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
 endif
 
-if s:plug.is_installed("neocomplcache")
-    let g:neocomplcache_enable_startup = 1
+if s:plug.is_installed("neocomplcache.vim")
     let g:acp_enableAtStartup = 0
+    let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
+    let g:neocomplcache_min_syntax_length = 3
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 endif
 
 if s:plug.is_installed("jedi-vim")
@@ -262,6 +265,8 @@ if s:plug.is_installed("vim-airline")
     let g:airline_theme = 'powerlineish'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_alt_sep = ''
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#show_tabs = 0
     let g:airline#extensions#tabline#show_buffers = 0
@@ -311,9 +316,9 @@ set matchtime=2
 set backspace=indent,eol,start
 " clipboard settings
 if has('unnamedplus')
-    set clipboard& clipboard+=unnamedplus,unnamed
+    set clipboard& clipboard+=unnamedplus,unnamed,autoselect
 else
-    set clipboard& clipboard+=unnamed
+    set clipboard& clipboard+=unnamed,autoselect
 endif
 " delete swap file and backup file
 set nowritebackup
@@ -347,6 +352,7 @@ syntax enable on
 set background=dark
 " no visualbell
 set novisualbell t_vb=
+set noerrorbells
 " use these letters below for invisuable letters
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
 "use 256 color
