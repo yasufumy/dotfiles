@@ -51,14 +51,6 @@ function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 
 function is_ssh_running() { [ ! -z "$SSH_CONECTION" ]; }
 
-function tmux_setup() {
-    if is_tmux_runnning; then
-        [[ `tmux -V | cut -d' ' -f2` -lt 2.2 ]] && tmux set-option -g status-utf8 on
-        [[ `tmux -V | cut -d' ' -f2` -lt 2.2 ]] && tmux set-window-option -g utf8 on
-        [[ `tmux -V | cut -d' ' -f2` -gt 1.6 ]] && tmux set-option -g status-position top
-    fi
-}
-
 function tmux_automatically_attach_session() {
     is_ssh_running && exit
 
@@ -152,8 +144,6 @@ setup_bundles() {
 zsh_startup() {
     # tmux
     tmux_automatically_attach_session
-    # setup tmux
-    tmux_setup
     # setup_bundles return true if antigen plugins and some modules are valid
     setup_bundles || return 1
 }
