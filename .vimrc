@@ -355,5 +355,9 @@ set novisualbell t_vb=
 set noerrorbells
 " use these letters below for invisuable letters
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
-"use 256 color
+" use 256 color
 set t_Co=256
+
+" other settings
+" eliminating delays on ESC
+set timeoutlen=1000 ttimeoutlen=0
