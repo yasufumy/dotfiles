@@ -30,7 +30,7 @@ antigen_plugins=(
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-syntax-highlighting"
 )
-bindkey -e
+bindkey -v
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
 function is_exists() {
@@ -224,22 +224,15 @@ if zsh_startup; then
         print -rn -- $terminfo[el]
     }
     add-zsh-hook preexec left_down_prompt_preexec
-    #function zle-keymap-select zle-line-init zle-line-finish {
-    function zle-line-init zle-line-finish {
-        #case $KEYMAP in
-        #    main|viins)
-        #        PROMPT_2="$fg[black]-- INSERT --$reset_color"
-        #        ;;
-        #    vicmd)
-        #        PROMPT_2="$fg[white]-- NORMAL --$reset_color"
-        #        ;;
-        #    vivis|vivli)
-        #        PROMPT_2="$fg[yellow]-- VISUAL --$reset_color"
-        #        ;;
-        #    virep)
-        #        PROMPT_2="$fg[red]-- REPLACE --$reset_color"
-        #        ;;
-        #esac
+    function zle-keymap-select zle-line-init zle-line-finish {
+        case $KEYMAP in
+            main|viins)
+                PROMPT_2="$fg[cyan]-- INSERT --$reset_color"
+                ;;
+            vicmd)
+                PROMPT_2="$fg[green]-- NORMAL --$reset_color"
+                ;;
+        esac
         if is_ssh_running; then
             PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
         else
@@ -250,7 +243,7 @@ if zsh_startup; then
 
     zle -N zle-line-init
     zle -N zle-line-finish
-    #zle -N zle-keymap-select
+    zle -N zle-keymap-select
     zle -N edit-command-line
 
     if is_ssh_running; then
@@ -284,6 +277,8 @@ if zsh_startup; then
             RPROMPT='%{'${fg[red]}'%}'`echo $(__git_ps1 "(%s)")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%}'
             RPROMPT+=$' [%{${fg[blue]}%}%~$env%{${reset_color}%}]'
             RPROMPT+='${p_buffer_stack}'
+        else
+            RPROMPT='[%{$fg[blue]%}%~$env%{$reset_color%}]'
         fi
     }
     add-zsh-hook precmd r-prompt
@@ -298,7 +293,9 @@ if zsh_startup; then
         export PYENV_ROOT="${HOME}/.pyenv"
         path=(${PYENV_ROOT}/bin(N-/^W) ${path})
         eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
+        if [[ -x "${HOME}/.pyenv/plugins/pyenv-virtualenv/bin/pyenv-virtualenv"]]; then
+            eval "$(pyenv virtualenv-init -)"
+        fi
     elif (( $+commands[pyenv] )); then
         # For Homebrew installed pyenv.
         eval "$(pyenv init -)"
