@@ -241,7 +241,7 @@ if zsh_startup; then
         #        ;;
         #esac
         if is_ssh_running; then
-            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
+            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
         else
             PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%# "
         fi
