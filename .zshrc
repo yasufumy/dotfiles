@@ -240,7 +240,11 @@ if zsh_startup; then
         #        PROMPT_2="$fg[red]-- REPLACE --$reset_color"
         #        ;;
         #esac
-        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
+        if is_ssh_running; then
+            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
+        else
+            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%# "
+        fi
         zle reset-prompt
     }
 
@@ -249,7 +253,7 @@ if zsh_startup; then
     #zle -N zle-keymap-select
     zle -N edit-command-line
 
-    PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
+    #PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}[%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%}]%# "
 
     # Right PROMPT
     #
@@ -276,8 +280,6 @@ if zsh_startup; then
             RPROMPT='%{'${fg[red]}'%}'`echo $(__git_ps1 "(%s)")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%}'
             RPROMPT+=$' [%{${fg[blue]}%}%~$env%{${reset_color}%}]'
             RPROMPT+='${p_buffer_stack}'
-        else
-            RPROMPT='[%{$fg[blue]%}%~$env%{$reset_color%}]'
         fi
     }
     add-zsh-hook precmd r-prompt
