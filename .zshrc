@@ -267,7 +267,7 @@ if zsh_startup; then
             env=''
         fi
         # git
-        if has '__git_ps1'; then
+        if [ `__git_ps1 $?` ]; then
             export GIT_PS1_SHOWDIRTYSTATE=1
             export GIT_PS1_SHOWSTASHSTATE=1
             export GIT_PS1_SHOWUNTRACKEDFILES=1
