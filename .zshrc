@@ -274,7 +274,7 @@ if zsh_startup; then
             export GIT_PS1_SHOWUPSTREAM="auto"
             export GIT_PS1_DESCRIBE_STYLE="branch"
             export GIT_PS1_SHOWCOLORHINTS=0
-            RPROMPT='%{'${fg[red]}'%}'`echo $(__git_ps1 "(%s)")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%}'
+            RPROMPT='(%{'${fg[red]}'%}'`echo $(__git_ps1 "%s")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%})'
             RPROMPT+=$' [%{${fg[blue]}%}%~$env%{${reset_color}%}]'
             RPROMPT+='${p_buffer_stack}'
         else
