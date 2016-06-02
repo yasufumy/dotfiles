@@ -19,3 +19,4 @@ for f in .??*; do
 
     ln -snfv "$DOTPATH/$f" "$HOME/$f"
 done
+exec $SHELL
