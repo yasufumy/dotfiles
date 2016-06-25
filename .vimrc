@@ -70,8 +70,10 @@ if s:plug.ready()
     Plug 'tpope/vim-fugitive'
     if has('lua')
         Plug 'Shougo/neocomplete.vim', {'on': []}
+        let s:comp = 'neocomplete.vim'
     else
         Plug 'Shougo/neocomplcache.vim', {'on': []}
+        let s:comp = 'neocomplcache.vim'
     endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
@@ -95,8 +97,8 @@ if s:plug.ready()
 
     augroup load_us_ycm
         autocmd!
-        autocmd InsertEnter * call plug#load('smartchr', 'neocomplete.vim', 'neocomplcache.vim')
-                            \| call youcompleteme#Enable() | autocmd! load_us_ycm
+        autocmd InsertEnter * call plug#load('vim-smartchr', s:comp)
+                    \ | autocmd! load_us_ycm
     augroup END
 
     call plug#end()
