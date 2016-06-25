@@ -82,6 +82,7 @@ if s:plug.ready()
     Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
+    Plug 'easymotion/vim-easymotion'
 
 
     " colorscheme
@@ -259,6 +260,12 @@ if s:plug.is_installed("vim-anzu")
         autocmd!
         autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
     augroup END
+endif
+
+if s:plug.is_installed("vim-easymotion")
+    let g:EasyMotion_use_upper = 1
+    let g:EasyMotion_smartcase = 1
+    let g:EasyMotion_use_smartsign_us = 1
 endif
 
 if s:plug.is_installed("vim-airline")
