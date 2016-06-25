@@ -69,9 +69,9 @@ if s:plug.ready()
     " compl
     Plug 'tpope/vim-fugitive'
     if has('lua')
-        Plug 'Shougo/neocomplete.vim'
+        Plug 'Shougo/neocomplete.vim', {'on': []}
     else
-        Plug 'Shougo/neocomplcache.vim'
+        Plug 'Shougo/neocomplcache.vim', {'on': []}
     endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
@@ -83,7 +83,7 @@ if s:plug.ready()
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
-    Plug 'kana/vim-smartchr'
+    Plug 'kana/vim-smartchr', {'on': []}
 
 
     " colorscheme
@@ -92,6 +92,12 @@ if s:plug.ready()
     " statusline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+
+    augroup load_us_ycm
+        autocmd!
+        autocmd InsertEnter * call plug#load('smartchr', 'neocomplete.vim', 'neocomplcache.vim')
+                            \| call youcompleteme#Enable() | autocmd! load_us_ycm
+    augroup END
 
     call plug#end()
 else
