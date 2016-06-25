@@ -83,6 +83,7 @@ if s:plug.ready()
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
+    Plug 'kana/vim-smartchr'
 
 
     " colorscheme
@@ -266,6 +267,16 @@ if s:plug.is_installed("vim-easymotion")
     let g:EasyMotion_use_upper = 1
     let g:EasyMotion_smartcase = 1
     let g:EasyMotion_use_smartsign_us = 1
+endif
+
+if s:plug.is_installed("vim-smartchr")
+    inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' == ')
+    inoremap <buffer> <expr> + smartchr#loop(' + ', '+', ' += ')
+    inoremap <buffer> <expr> - smartchr#loop(' - ', '-', ' -= ')
+    inoremap <buffer> <expr> * smartchr#loop(' * ', '*', ' *= ')
+    inoremap <buffer> <expr> / smartchr#loop(' / ', '/', ' // ')
+    inoremap <buffer> <expr> , smartchr#loop(', ', ',')
+    inoremap <buffer> <expr> . smartchr#loop('.', '()', '[]', '{}')
 endif
 
 if s:plug.is_installed("vim-airline")
