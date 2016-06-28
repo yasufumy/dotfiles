@@ -31,3 +31,9 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # ls command colors
 export LSCOLORS=exfxcxdxbxegedabagacad
+
+# reduce the mode change delay
+export KEYTIMEOUT=0
+
+# disable virtualenv prompt
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1

@@ -69,9 +69,11 @@ if s:plug.ready()
     " compl
     Plug 'tpope/vim-fugitive'
     if has('lua')
-        Plug 'Shougo/neocomplete.vim'
+        Plug 'Shougo/neocomplete.vim', {'on': []}
+        let s:comp = 'neocomplete.vim'
     else
-        Plug 'Shougo/neocomplcache.vim'
+        Plug 'Shougo/neocomplcache.vim', {'on': []}
+        let s:comp = 'neocomplcache.vim'
     endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
@@ -82,6 +84,8 @@ if s:plug.ready()
     Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
+    Plug 'easymotion/vim-easymotion'
+    Plug 'kana/vim-smartchr', {'on': []}
 
 
     " colorscheme
@@ -90,6 +94,12 @@ if s:plug.ready()
     " statusline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+
+    augroup load_us_ycm
+        autocmd!
+        autocmd InsertEnter * call plug#load('vim-smartchr', s:comp)
+                    \ | autocmd! load_us_ycm
+    augroup END
 
     call plug#end()
 else
@@ -261,6 +271,16 @@ if s:plug.is_installed("vim-anzu")
     augroup END
 endif
 
+if s:plug.is_installed("vim-easymotion")
+    let g:EasyMotion_use_upper = 1
+    let g:EasyMotion_smartcase = 1
+    let g:EasyMotion_use_smartsign_us = 1
+endif
+
+if s:plug.is_installed("vim-smartchr")
+    inoremap <buffer> <expr> , smartchr#loop(', ', ',')
+endif
+
 if s:plug.is_installed("vim-airline")
     let g:airline_theme = 'powerlineish'
     let g:airline_left_sep = ''
@@ -355,5 +375,9 @@ set novisualbell t_vb=
 set noerrorbells
 " use these letters below for invisuable letters
 set listchars=tab:>-,trail:-,extends:>,precedes:<,nbsp:%,eol:<
-"use 256 color
+" use 256 color
 set t_Co=256
+
+" other settings
+" eliminating delays on ESC
+set timeoutlen=1000 ttimeoutlen=0
