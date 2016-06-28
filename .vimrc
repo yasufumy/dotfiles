@@ -278,13 +278,7 @@ if s:plug.is_installed("vim-easymotion")
 endif
 
 if s:plug.is_installed("vim-smartchr")
-    inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' == ')
-    inoremap <buffer> <expr> + smartchr#loop(' + ', '+', ' += ')
-    inoremap <buffer> <expr> - smartchr#loop(' - ', '-', ' -= ')
-    inoremap <buffer> <expr> * smartchr#loop(' * ', '*', ' *= ')
-    inoremap <buffer> <expr> / smartchr#loop(' / ', '/', ' // ')
     inoremap <buffer> <expr> , smartchr#loop(', ', ',')
-    inoremap <buffer> <expr> . smartchr#loop('.', '()', '[]', '{}')
 endif
 
 if s:plug.is_installed("vim-airline")
