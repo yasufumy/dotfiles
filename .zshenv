@@ -7,6 +7,7 @@ export LC_CTYPE="${LANGUAGE}"
 # path
 export PATH="/usr/local/bin:${PATH}"
 export PATH="/usr/local/sbin:${PATH}"
+export PATH="${HOME}/.dotfiles/bin:${PATH}"
 
 # Editor
 export EDITOR=vim
