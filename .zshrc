@@ -32,7 +32,11 @@ antigen_plugins=(
 )
 bindkey -v
 # key bind of incremental history search
-bindkey "^R" history-incremental-search-backward
+if [[ $(zsh --version | awk '{print $2}') > 4.3.9 ]]; then
+    zle -la history-incremental-pattern-search-backward && bindkey "^r" history-incremental-pattern-search-backward
+else
+    history-incremental-search-backward
+fi
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
 function is_exists() {
