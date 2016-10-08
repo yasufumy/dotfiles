@@ -31,6 +31,8 @@ antigen_plugins=(
     "zsh-users/zsh-syntax-highlighting"
 )
 bindkey -v
+# key bind of incremental history search
+bindkey "^R" history-incremental-search-backward
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
 function is_exists() {
