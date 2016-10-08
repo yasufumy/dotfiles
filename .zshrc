@@ -193,6 +193,16 @@ if zsh_startup; then
     # vim
     alias vi="vim"
 
+    # python
+    function py() {
+        if (( $+commands[ipython] )); then
+            ipython
+        else
+            python
+        fi
+    }
+    alias python="py"
+
     # git
     alias gst="git status"
     alias gsth="git stash"
