@@ -195,11 +195,7 @@ if zsh_startup; then
 
     # python
     function py() {
-        if (( $+commands[ipython] )); then
-            ipython
-        else
-            python
-        fi
+        test -z "$1" && ipython 2> /dev/null || command python "$@"
     }
     alias python="py"
 
