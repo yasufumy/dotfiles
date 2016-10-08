@@ -30,6 +30,15 @@ export LESS_TERMCAP_so=$'\E[00;44;37m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
+# History file
+export HISTFILE=~/.zsh_history
+# History size in memory
+export HISTSIZE=10000
+# The number of histsize
+export SAVEHIST=1000000
+# The size of asking history
+export LISTMAX=50
+
 # ls command colors
 export LSCOLORS=exfxcxdxbxegedabagacad
 
