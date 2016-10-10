@@ -31,13 +31,27 @@ antigen_plugins=(
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-syntax-highlighting"
 )
+## Key bind
 bindkey -v
-# key bind of incremental history search
-if [[ $(zsh --version | awk '{print $2}') > 4.3.9 ]]; then
-    zle -la history-incremental-pattern-search-backward && bindkey "^r" history-incremental-pattern-search-backward
-else
-    history-incremental-search-backward
-fi
+
+# Add emacs-like keybind to viins mode
+bindkey -M viins '^F'    forward-char
+bindkey -M viins '^B'    backward-char
+bindkey -M viins '^P'    up-line-or-history
+bindkey -M viins '^N'    down-line-or-history
+bindkey -M viins '^A'    beginning-of-line
+bindkey -M viins '^E'    end-of-line
+bindkey -M viins '^K'    kill-line
+bindkey -M viins '^R'    history-incremental-pattern-search-backward
+bindkey -M viins '\er'   history-incremental-pattern-search-forward
+bindkey -M viins '^Y'    yank
+bindkey -M viins '^W'    backward-kill-word
+bindkey -M viins '^U'    backward-kill-line
+bindkey -M viins '^H'    backward-delete-char
+bindkey -M viins '^?'    backward-delete-char
+bindkey -M viins '^G'    send-break
+bindkey -M viins '^D'    delete-char-or-list
+
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
 function is_exists() {
