@@ -361,6 +361,8 @@ if zsh_startup; then
     # Automaticall escape URL when copy and paste
     autoload -Uz url-quote-magic
     zle -N self-insert url-quote-magic
+    # Show complition small
+    setopt list_packed
 
     # Do not record an event that was just recorded again.
     setopt hist_ignore_dups
