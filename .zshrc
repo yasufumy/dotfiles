@@ -19,6 +19,7 @@ autoload -Uz terminfo
 autoload -Uz vcs_info
 autoload -Uz zcalc
 autoload -Uz zmv
+autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
 autoload     run-help-git
 autoload     run-help-svk
 autoload     run-help-svn
@@ -377,9 +378,6 @@ if zsh_startup; then
     setopt auto_resume
     # If the path is directory, add '/' to path tail when generating path by glob
     setopt mark_dirs
-    # Automaticall escape URL when copy and paste
-    autoload -Uz url-quote-magic
-    zle -N self-insert url-quote-magic
     # Show complition small
     setopt list_packed
 
