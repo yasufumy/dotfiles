@@ -317,4 +317,21 @@ if zsh_startup; then
         eval "$(pyenv init -)"
         eval "$(pyenv virtualenv-init -)"
     fi
+
+    ## setopt
+    # % Unknown command treat as arguments of cd
+    setopt auto_cd
+    setopt auto_pushd
+    # Replace 'cd -' with 'cd +'
+    setopt pushd_minus
+    # Ignore duplicates to add to pushd
+    setopt pushd_ignore_dups
+    # pushd no arg == pushd $HOME
+    setopt pushd_to_home
+    # Check spell command
+    setopt correct
+    # Check spell all
+    setopt correct_all
+    # Automatically delete slash complemented by supplemented by inserting a space.
+    setopt auto_remove_slash
 fi
