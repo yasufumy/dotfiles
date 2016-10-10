@@ -345,7 +345,7 @@ if zsh_startup; then
     # Automatically delete slash complemented by supplemented by inserting a space.
     setopt auto_remove_slash
     # Show exit status if it's except zero.
-    setopt print_exit_value
+    #setopt print_exit_value
     # No Beep
     setopt no_beep
     setopt no_list_beep
