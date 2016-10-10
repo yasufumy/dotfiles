@@ -22,6 +22,7 @@ autoload -Uz zmv
 autoload     run-help-git
 autoload     run-help-svk
 autoload     run-help-svn
+autoload     predict-on
 
 antigen=~/.antigen
 antigen_plugins=(
