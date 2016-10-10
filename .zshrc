@@ -212,6 +212,10 @@ if zsh_startup; then
     # vim
     alias vi="vim"
 
+    # disk
+    alias du="du -h"
+    alias df="df -h"
+
     # python
     function py() {
         test -z "$1" && ipython || command python "$@"
