@@ -334,4 +334,31 @@ if zsh_startup; then
     setopt correct_all
     # Automatically delete slash complemented by supplemented by inserting a space.
     setopt auto_remove_slash
+
+    # Deploy {a-c} -> a b c
+    setopt brace_ccl
+    # Change
+    #~$ echo 'hoge' \' 'fuga'
+    # to
+    #~$ echo 'hoge '' fuga'
+    setopt rc_quotes
+    # Automatically delete slash complemented by supplemented by inserting a space.
+    setopt auto_remove_slash
+    # Show exit status if it's except zero.
+    setopt print_exit_value
+    # No Beep
+    setopt no_beep
+    setopt no_list_beep
+    setopt no_hist_beep
+    # Let me know immediately when terminating job
+    setopt notify
+    # Show process ID
+    setopt long_list_jobs
+    # Resume when executing the same name command as suspended process name
+    setopt auto_resume
+    # If the path is directory, add '/' to path tail when generating path by glob
+    setopt mark_dirs
+    # Automaticall escape URL when copy and paste
+    autoload -Uz url-quote-magic
+    zle -N self-insert url-quote-magic
 fi
