@@ -336,9 +336,9 @@ set matchtime=2
 set backspace=indent,eol,start
 " clipboard settings
 if has('unnamedplus')
-    set clipboard& clipboard+=unnamedplus,unnamed,autoselect
+    set clipboard=unnamedplus,unnamed
 else
-    set clipboard& clipboard+=unnamed,autoselect
+    set clipboard=unnamed
 endif
 " delete swap file and backup file
 set nowritebackup
