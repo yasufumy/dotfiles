@@ -364,6 +364,8 @@ set ruler
 set cursorline
 " display command autocomplete on statusline
 set wildmenu
+" Wildmenu mode
+set wildmode=longest,full
 " display statusline
 set laststatus=2
 " enable syntax highlight
