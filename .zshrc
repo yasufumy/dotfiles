@@ -219,7 +219,7 @@ if zsh_startup; then
 
     # python
     function py() {
-        test -z "$1" && ipython || command python "$@"
+        test -z "$1" && ipython --no-confirm-exit || command python "$@"
         #ipython -h >/dev/null 2>&1
         #if [[ $# -eq 0 && $? -eq 0 ]]; then
         #    command ipython
