@@ -245,6 +245,7 @@ if zsh_startup; then
     alias gdf="git diff"
     alias gmrg="git merge"
     alias grb="git rebase"
+    alias gsb="git submodule"
 
     # labnet
     alias labnet="ssh -N -f -L localhost:8088:sara:80 yasufumi@peter.pi.titech.ac.jp"
