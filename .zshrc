@@ -25,12 +25,6 @@ autoload     run-help-svk
 autoload     run-help-svn
 autoload     predict-on
 
-antigen=~/.antigen
-antigen_plugins=(
-    "zsh-users/zsh-completions"
-    "zsh-users/zsh-history-substring-search"
-    "zsh-users/zsh-syntax-highlighting"
-)
 ## Key bind
 bindkey -v
 
@@ -119,60 +113,45 @@ function tmux_automatically_attach_session() {
         fi
     fi
 }
-setup_bundles() {
-    echo -e "$fg[blue]Starting $SHELL....$reset_color\n"
 
-    modules() {
-        local -a modules_path
-        modules_path=(
-            ~/.zsh/*.(sh|zsh)
-        )
-
-        local f
-        for f ($modules_path) source "$f" && echo "loading $f"
-    }
-
-    # has_plugin returns true if $1 plugin are installed and available
-    has_plugin() {
-        (( ${antigen_plugins[(I)${${(M)1:#*/*}:-"*"/${1#*/}}|${1#*/}]} ))
-        return $status
-    }
-
-    # bundle_install installs antigen and runs bundles command
-    bundle_install() {
-        git clone https://github.com/zsh-users/antigen $antigen
-        bundles
-    }
-
-    # bundles checks if antigen plugins are valid and available
-    bundles() {
-        if [[ -f $antigen/antigen.zsh ]]; then
-            source $antigen/antigen.zsh
-
-            # check plugins installed by antigen
-            local p
-            for p in ${antigen_plugins[@]}
-            do
-                echo "checking... $p"
-                antigen-bundle "$p"
-            done
-
-            # apply antigen
-            antigen-apply
-        else
-            echo "$fg[red]To make your shell strong, run 'bundle_install'.$reset_color"
+function zplug_install() {
+    if [[ ! -f ~/.zplug/init.zsh ]]; then
+        if (( ! $+commands[git] )); then
+            echo "git: command not found" >&2
+            exit 1
         fi
-    }
 
-    bundles; echo
-    modules; echo
+        git clone \
+            https://github.com/zplug/zplug \
+            ~/.zplug
+
+        # failed
+        if (( $status != 0 )); then
+            echo "zplug: fails to installation of zplug" >&2
+        fi
+    fi
+
+    if [[ -f ~/.zplug/init.zsh ]]; then
+        export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
+        source ~/.zplug/init.zsh
+
+        if ! zplug check --verbose; then
+            printf "Install? [y/N]: "
+            if read -q; then
+                echo; zplug install
+            else
+                echo
+            fi
+        fi
+        zplug load --verbose
+    fi
 }
 
 zsh_startup() {
     # tmux
     tmux_automatically_attach_session
-    # setup_bundles return true if antigen plugins and some modules are valid
-    setup_bundles || return 1
+    # check plugins
+    zplug_install
 }
 
 if zsh_startup; then
