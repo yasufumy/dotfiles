@@ -27,7 +27,6 @@ autoload     predict-on
 
 antigen=~/.antigen
 antigen_plugins=(
-    "bobthecow/git-flow-completion"
     "zsh-users/zsh-completions"
     "zsh-users/zsh-history-substring-search"
     "zsh-users/zsh-syntax-highlighting"
@@ -241,7 +240,6 @@ if zsh_startup; then
     alias gbr="git branch"
     alias gco="git checkout"
     alias glg="git graph"
-    alias gfl="git-flow"
     alias gdf="git diff"
     alias gmrg="git merge"
     alias grb="git rebase"
