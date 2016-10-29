@@ -73,16 +73,16 @@ function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 function is_ssh_running() { [ ! -z "$SSH_CONNECTION" ]; }
 
 function tmux_automatically_attach_session() {
-    is_ssh_running && return
+    is_ssh_running && exit
 
     if is_screen_or_tmux_running; then
         if is_tmux_runnning; then
             export DISPLAY="$TMUX"
         elif is_screen_running; then
             # For GNU screen
+            :
         fi
     else
-        #if shell_has_started_interactively && ! is_ssh_running; then
         if ! is_ssh_running; then
             if ! has "tmux"; then
                 echo "tmux not found" 1>&2
@@ -107,6 +107,14 @@ function tmux_automatically_attach_session() {
                         exit
                     fi
                 fi
+            fi
+
+            if is_osx && has "reattach-to-user-namespace"; then
+                tmux_login_shell="/bin/zsh"
+                tmux_config=$(cat ~/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l' $tmux_login_shell'"'))
+                tmux -f <(echo "$tmux_config") new-session && echo "$(tmux -V) created new session supported OS X"
+            else
+                tmux new-session && echo "tmux created new session"
             fi
         fi
     fi
