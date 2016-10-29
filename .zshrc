@@ -110,7 +110,7 @@ function tmux_automatically_attach_session() {
             fi
 
             if is_osx && has "reattach-to-user-namespace"; then
-                tmux_login_shell="/bin/zsh"
+                tmux_login_shell=`which zsh`
                 tmux_config=$(cat ~/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l' $tmux_login_shell'"'))
                 tmux -f <(echo "$tmux_config") new-session && echo "$(tmux -V) created new session supported OS X"
             else
