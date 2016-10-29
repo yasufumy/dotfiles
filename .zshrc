@@ -25,12 +25,6 @@ autoload     run-help-svk
 autoload     run-help-svn
 autoload     predict-on
 
-antigen=~/.antigen
-antigen_plugins=(
-    "zsh-users/zsh-completions"
-    "zsh-users/zsh-history-substring-search"
-    "zsh-users/zsh-syntax-highlighting"
-)
 ## Key bind
 bindkey -v
 
@@ -73,16 +67,16 @@ function shell_has_started_interactively() { [ ! -z "$PS1" ]; }
 function is_ssh_running() { [ ! -z "$SSH_CONNECTION" ]; }
 
 function tmux_automatically_attach_session() {
-    is_ssh_running && return
+    is_ssh_running && exit
 
     if is_screen_or_tmux_running; then
         if is_tmux_runnning; then
             export DISPLAY="$TMUX"
         elif is_screen_running; then
             # For GNU screen
+            :
         fi
     else
-        #if shell_has_started_interactively && ! is_ssh_running; then
         if ! is_ssh_running; then
             if ! has "tmux"; then
                 echo "tmux not found" 1>&2
@@ -108,63 +102,56 @@ function tmux_automatically_attach_session() {
                     fi
                 fi
             fi
+
+            if is_osx && has "reattach-to-user-namespace"; then
+                tmux_login_shell=`which zsh`
+                tmux_config=$(cat ~/.tmux.conf <(echo 'set-option -g default-command "reattach-to-user-namespace -l' $tmux_login_shell'"'))
+                tmux -f <(echo "$tmux_config") new-session && echo "$(tmux -V) created new session supported OS X"
+            else
+                tmux new-session && echo "tmux created new session"
+            fi
         fi
     fi
 }
-setup_bundles() {
-    echo -e "$fg[blue]Starting $SHELL....$reset_color\n"
 
-    modules() {
-        local -a modules_path
-        modules_path=(
-            ~/.zsh/*.(sh|zsh)
-        )
-
-        local f
-        for f ($modules_path) source "$f" && echo "loading $f"
-    }
-
-    # has_plugin returns true if $1 plugin are installed and available
-    has_plugin() {
-        (( ${antigen_plugins[(I)${${(M)1:#*/*}:-"*"/${1#*/}}|${1#*/}]} ))
-        return $status
-    }
-
-    # bundle_install installs antigen and runs bundles command
-    bundle_install() {
-        git clone https://github.com/zsh-users/antigen $antigen
-        bundles
-    }
-
-    # bundles checks if antigen plugins are valid and available
-    bundles() {
-        if [[ -f $antigen/antigen.zsh ]]; then
-            source $antigen/antigen.zsh
-
-            # check plugins installed by antigen
-            local p
-            for p in ${antigen_plugins[@]}
-            do
-                echo "checking... $p"
-                antigen-bundle "$p"
-            done
-
-            # apply antigen
-            antigen-apply
-        else
-            echo "$fg[red]To make your shell strong, run 'bundle_install'.$reset_color"
+function zplug_install() {
+    if [[ ! -f ~/.zplug/init.zsh ]]; then
+        if (( ! $+commands[git] )); then
+            echo "git: command not found" >&2
+            exit 1
         fi
-    }
 
-    bundles; echo
-    modules; echo
+        git clone \
+            https://github.com/zplug/zplug \
+            ~/.zplug
+
+        # failed
+        if (( $status != 0 )); then
+            echo "zplug: fails to installation of zplug" >&2
+        fi
+    fi
+
+    if [[ -f ~/.zplug/init.zsh ]]; then
+        export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
+        source ~/.zplug/init.zsh
+
+        if ! zplug check --verbose; then
+            printf "Install? [y/N]: "
+            if read -q; then
+                echo; zplug install
+            else
+                echo
+            fi
+        fi
+        zplug load --verbose
+    fi
 }
 
 zsh_startup() {
     # tmux
     tmux_automatically_attach_session
-    # setup_bundles return true if antigen plugins and some modules are valid
-    setup_bundles || return 1
+    # check plugins
+    zplug_install
 }
 
 if zsh_startup; then
