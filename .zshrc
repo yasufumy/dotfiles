@@ -203,6 +203,9 @@ if zsh_startup; then
     alias du="du -h"
     alias df="df -h"
 
+    # memory
+    alias free="free -h"
+
     # python
     function py() {
         test -z "$1" && ipython --no-confirm-exit || command python "$@"
