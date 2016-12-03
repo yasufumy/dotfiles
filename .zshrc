@@ -225,6 +225,7 @@ if zsh_startup; then
     alias gph="git push"
     alias gpl="git pull"
     alias gbr="git branch"
+    alias gbrs="git branch -a"
     alias gco="git checkout"
     alias glg="git graph"
     alias gdf="git diff"
