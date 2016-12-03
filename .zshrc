@@ -234,7 +234,10 @@ if zsh_startup; then
     alias grt="git remote"
 
     # labnet
-    alias labnet="ssh -N -f -L localhost:8088:sara:80 yasufumi@peter.pi.titech.ac.jp"
+    alias socks="scselect -n socks"
+    alias tunnel="ssh -N -f -D 1080 lab"
+    alias labnet="tunnel; socks"
+    alias homenet="kill $(ps aux | grep 1080 | grep ssh | awk '{print $2}') 2>/dev/null; scselect -n default"
 
     # update
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
