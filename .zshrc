@@ -263,11 +263,7 @@ if zsh_startup; then
                 PROMPT_2="$fg[green]-- NORMAL --$reset_color"
                 ;;
         esac
-        if is_ssh_running; then
-            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
-        else
-            PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%# "
-        fi
+        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
         zle reset-prompt
     }
 
@@ -276,11 +272,7 @@ if zsh_startup; then
     zle -N zle-keymap-select
     zle -N edit-command-line
 
-    if is_ssh_running; then
-        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
-    else
-        PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%# "
-    fi
+    PROMPT="%{$terminfo_down_sc$PROMPT_2$terminfo[rc]%}%(?.%{${fg[green]}%}.%{${fg[red]}%})${HOST}%{${reset_color}%} %# "
 
     # Right PROMPT
     #
