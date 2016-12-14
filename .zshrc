@@ -1,50 +1,5 @@
-typeset -gx -U fpath
-fpath=( \
-    ~/.zsh/completion(N-/) \
-    /usr/local/share/zsh/site-functions(N-/) \
-    $fpath \
-    )
-
-# autoload
-autoload -U  run-help
-autoload -Uz add-zsh-hook
-autoload -Uz cdr
-autoload -Uz colors; colors
-autoload -Uz compinit; compinit -u
-autoload -Uz is-at-least
-autoload -Uz history-search-end
-autoload -Uz modify-current-argument
-autoload -Uz smart-insert-last-word
-autoload -Uz terminfo
-autoload -Uz vcs_info
-autoload -Uz zcalc
-autoload -Uz zmv
-autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
-autoload     run-help-git
-autoload     run-help-svk
-autoload     run-help-svn
-autoload     predict-on
-
-## Key bind
-bindkey -v
-
-# Add emacs-like keybind to viins mode
-bindkey -M viins '^F'    forward-char
-bindkey -M viins '^B'    backward-char
-bindkey -M viins '^P'    up-line-or-history
-bindkey -M viins '^N'    down-line-or-history
-bindkey -M viins '^A'    beginning-of-line
-bindkey -M viins '^E'    end-of-line
-bindkey -M viins '^K'    kill-line
-bindkey -M viins '^R'    history-incremental-pattern-search-backward
-bindkey -M viins '\er'   history-incremental-pattern-search-forward
-bindkey -M viins '^Y'    yank
-bindkey -M viins '^W'    backward-kill-word
-bindkey -M viins '^U'    backward-kill-line
-bindkey -M viins '^H'    backward-delete-char
-bindkey -M viins '^?'    backward-delete-char
-bindkey -M viins '^G'    send-break
-bindkey -M viins '^D'    delete-char-or-list
+limit coredumpsize 0
+bindkey -d
 
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
@@ -114,74 +69,56 @@ function tmux_automatically_attach_session() {
     fi
 }
 
-function zplug_install() {
-    if [[ ! -f ~/.zplug/init.zsh ]]; then
-        if (( ! $+commands[git] )); then
-            echo "git: command not found" >&2
-            exit 1
-        fi
+zsh_keybind() {
+    ## Key bind
+    bindkey -v
 
-        git clone \
-            https://github.com/zplug/zplug \
-            ~/.zplug
+    # Add emacs-like keybind to viins mode
+    bindkey -M viins '^F' forward-char
+    bindkey -M viins '^B' backward-char
+    bindkey -M viins '^P' up-line-or-history
+    bindkey -M viins '^N' down-line-or-history
+    bindkey -M viins '^A' beginning-of-line
+    bindkey -M viins '^E' end-of-line
+    bindkey -M viins '^K' kill-line
+    bindkey -M viins '^R' history-incremental-pattern-search-backward
+    bindkey -M viins '\er' history-incremental-pattern-search-forward
+    bindkey -M viins '^Y' yank
+    bindkey -M viins '^W' backward-kill-word
+    bindkey -M viins '^U' backward-kill-line
+    bindkey -M viins '^H' backward-delete-char
+    bindkey -M viins '^?' backward-delete-char
+    bindkey -M viins '^G' send-break
+    bindkey -M viins '^D' delete-char-or-list
 
-        # failed
-        if (( $status != 0 )); then
-            echo "zplug: fails to installation of zplug" >&2
-        fi
-    fi
+    bindkey -M vicmd '^A' beginning-of-line
+    bindkey -M vicmd '^E' end-of-line
+    bindkey -M vicmd '^K' kill-line
+    bindkey -M vicmd '^P' up-line-or-history
+    bindkey -M vicmd '^N' down-line-or-history
+    bindkey -M vicmd '^Y' yank
+    bindkey -M vicmd '^W' backward-kill-word
+    bindkey -M vicmd '^U' backward-kill-line
+    bindkey -M vicmd '/'  vi-history-search-forward
+    bindkey -M vicmd '?'  vi-history-search-backward
 
-    if [[ -f ~/.zplug/init.zsh ]]; then
-        export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
-        source ~/.zplug/init.zsh
+    has 'history-substring-search-up' &&
+        bindkey -M emacs '^P' history-substring-search-up
+    has 'history-substring-search-down' &&
+        bindkey -M emacs '^N' history-substring-search-down
 
-        if ! zplug check --verbose; then
-            printf "Install? [y/N]: "
-            if read -q; then
-                echo; zplug install
-            else
-                echo
-            fi
-        fi
-        zplug load --verbose
-    fi
+    has 'history-substring-search-up' &&
+        bindkey -M vicmd 'k' history-substring-search-up
+    has 'history-substring-search-down' &&
+        bindkey -M vicmd 'j' history-substring-search-down
+
+    has 'history-substring-search-up' &&
+        bindkey  '^P' history-substring-search-up
+    has 'history-substring-search-down' &&
+        bindkey  '^N' history-substring-search-down
 }
 
-zsh_startup() {
-    # tmux
-    tmux_automatically_attach_session
-    # check plugins
-    zplug_install
-}
-
-if zsh_startup; then
-    # Important
-    zstyle ':completion:*:default' menu select=2
-
-    # Completing Groping
-    zstyle ':completion:*:options' description 'yes'
-    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
-    zstyle ':completion:*' group-name ''
-
-    # Completing misc
-    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-    zstyle ':completion:*' verbose yes
-    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
-    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
-    zstyle ':completion:*' use-cache true
-    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-    # Directory
-    zstyle ':completion:*:cd:*' ignore-parents parent pwd
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-    # default:
-    zstyle ':completion:*' list-separator '-->'
-    zstyle ':completion:*:manuals' separate-sections true
-
-    ### alias ###
-    # default command
+zsh_alias() {
     if is_linux; then
         alias ls="ls --color -F"
     elif is_osx; then
@@ -207,7 +144,7 @@ if zsh_startup; then
     alias free="free -h"
 
     # python
-    function py() {
+    py() {
         test -z "$1" && ipython --no-confirm-exit || command python "$@"
         #ipython -h >/dev/null 2>&1
         #if [[ $# -eq 0 && $? -eq 0 ]]; then
@@ -247,8 +184,9 @@ if zsh_startup; then
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
     alias update-all="brew update && brew upgrade&& brew cleanup && brew cask update && brew-cask-upgrade && brew cask cleanup && softwareupdate -ia"
     alias pip-update="pip install --upgrade pip; pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"
-    ### PROMPT ###
-    #
+}
+
+zsh_prompt() {
     terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
     left_down_prompt_preexec() {
         print -rn -- $terminfo[el]
@@ -308,7 +246,9 @@ if zsh_startup; then
     # Other PROMPT
     #
     SPROMPT="%{${fg[red]}%}Did you mean?: %R -> %r [nyae]? %{${reset_color}%}"
+}
 
+pyenv_setup() {
     # setup pyenv
     if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
         # For git-cloned pyenv.
@@ -323,8 +263,9 @@ if zsh_startup; then
         eval "$(pyenv init -)"
         eval "$(pyenv virtualenv-init -)"
     fi
+}
 
-    ## setopt
+zsh_setopt() {
     # % Unknown command treat as arguments of cd
     setopt auto_cd
     setopt auto_pushd
@@ -364,6 +305,9 @@ if zsh_startup; then
     setopt auto_resume
     # If the path is directory, add '/' to path tail when generating path by glob
     setopt mark_dirs
+    # Automatically escape URL when copy and paste
+    autoload -Uz url-quote-magic
+    zle -N self-insert url-quote-magic
     # Show complition small
     setopt list_packed
 
@@ -396,4 +340,77 @@ if zsh_startup; then
     setopt hist_verify
     # Enable history system like a Bash
     setopt bang_hist
+}
+
+zsh_misc() {
+    # Important
+    zstyle ':completion:*:default' menu select=2
+
+    # Completing Groping
+    zstyle ':completion:*:options' description 'yes'
+    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
+    zstyle ':completion:*' group-name ''
+
+    # Completing misc
+    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+    zstyle ':completion:*' verbose yes
+    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+    zstyle ':completion:*' use-cache true
+    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+    # Directory
+    zstyle ':completion:*:cd:*' ignore-parents parent pwd
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+    # default:
+    zstyle ':completion:*' list-separator '-->'
+    zstyle ':completion:*:manuals' separate-sections true
+
+    # Menu select
+    zmodload -i zsh/complist
+    bindkey -M menuselect '^h' vi-backward-char
+    bindkey -M menuselect '^j' vi-down-line-or-history
+    bindkey -M menuselect '^k' vi-up-line-or-history
+    bindkey -M menuselect '^l' vi-forward-char
+
+    autoload -Uz cdr
+    autoload -Uz history-search-end
+    autoload -Uz modify-current-argument
+    autoload -Uz smart-insert-last-word
+    autoload -Uz terminfo
+    autoload -Uz vcs_info
+    autoload -Uz zcalc
+    autoload -Uz run-help-git
+    autoload -Uz run-help-svk
+    autoload -Uz run-help-svn
+}
+
+## start zsh
+
+# attach tmux
+tmux_automatically_attach_session
+
+# setup
+zsh_keybind
+zsh_alias
+zsh_prompt
+zsh_setopt
+zsh_misc
+pyenv_setup
+
+if [[ -f ~/.zplug/init.zsh ]]; then
+    export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
+    source ~/.zplug/init.zsh
+
+    if ! zplug check --verbose; then
+        printf "Install? [y/N]: "
+        if read -q; then
+            echo; zplug install
+        else
+            echo
+        fi
+    fi
+    zplug load --verbose
 fi

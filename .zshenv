@@ -1,3 +1,18 @@
+# setting fpath
+typeset -gx -U fpath
+fpath=( \
+     ~/.zsh/completion(N-/) \
+     /usr/local/share/site-functions(N-/) \
+     $fpath \
+     )
+
+# autoload
+autoload -Uz run-help
+autoload -Uz add-zsh-hook
+autoload -Uz colors && colors
+autoload -Uz compinit && compinit -u
+autoload -Uz is-at-least
+
 # LANGUAGE must be set by en_US
 export LANGUAGE="en_US.UTF-8"
 export LANG="${LANGUAGE}"
