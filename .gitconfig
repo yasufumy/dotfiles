@@ -18,6 +18,8 @@
 
 [diff]
     tool = vimdiff
+    algorithm = histogram
+        compactionHeuristic = true
 
 [core]
     pager = less -q -R
