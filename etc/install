@@ -22,19 +22,9 @@ done
 
 # install zplug
 if [ ! -f ~/.zplug/init.zsh ]; then
-    if (( ! $+commands[git] )); then
-        echo "git: command not found" >&2
-        exit 1
-    fi
-
     git clone \
         https://github.com/zplug/zplug \
         ~/.zplug
-
-    # failed
-    if (( $status != 0 )); then
-        echo "zplug: fails to installation of zplug" >&2
-    fi
 fi
 
 #if [[ ! -f ~/.zplug/init.zsh ]]; then
