@@ -23,6 +23,7 @@
     pager = less -q -R
     editor = vim
     excludesfile = ~/.gitignore
+    preloadindex = true
 
 [merge]
     tool = vimdiff
