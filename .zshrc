@@ -1,21 +1,5 @@
-typeset -gx -U fpath
-fpath=( \
-    ~/.zsh/completion(N-/) \
-    /usr/local/share/zsh/site-functions(N-/) \
-    $fpath \
-    )
-
-# autoload
-autoload -Uz history-search-end
-autoload -Uz modify-current-argument
-autoload -Uz smart-insert-last-word
-autoload -Uz terminfo
-autoload -Uz vcs_info
-autoload -Uz zcalc
-autoload     run-help-git
-autoload     run-help-svk
-autoload     run-help-svn
-autoload     predict-on
+limit coredumpsize 0
+bindkey -d
 
 ### initialize ###
 # is_exists returns true if executable $1 exists in $PATH
@@ -85,46 +69,6 @@ function tmux_automatically_attach_session() {
     fi
 }
 
-function zplug_install() {
-    if [[ ! -f ~/.zplug/init.zsh ]]; then
-        if (( ! $+commands[git] )); then
-            echo "git: command not found" >&2
-            exit 1
-        fi
-
-        git clone \
-            https://github.com/zplug/zplug \
-            ~/.zplug
-
-        # failed
-        if (( $status != 0 )); then
-            echo "zplug: fails to installation of zplug" >&2
-        fi
-    fi
-
-    if [[ -f ~/.zplug/init.zsh ]]; then
-        export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
-        source ~/.zplug/init.zsh
-
-        if ! zplug check --verbose; then
-            printf "Install? [y/N]: "
-            if read -q; then
-                echo; zplug install
-            else
-                echo
-            fi
-        fi
-        zplug load --verbose
-    fi
-}
-
-zsh_startup() {
-    # tmux
-    tmux_automatically_attach_session
-    # check plugins
-    zplug_install
-}
-
 zsh_keybind() {
     ## Key bind
     bindkey -v
@@ -188,9 +132,6 @@ zsh_alias() {
     alias cp="cp -iv"
     alias purge="sudo purge"
     alias grep="grep --color"
-
-    autoload -Uz zmv
-    alias zmv ='noglob zmv -W'
 
     # vim
     alias vi="vim"
@@ -401,7 +342,7 @@ zsh_setopt() {
     setopt bang_hist
 }
 
-if zsh_startup; then
+zsh_misc() {
     # Important
     zstyle ':completion:*:default' menu select=2
 
@@ -427,10 +368,48 @@ if zsh_startup; then
     zstyle ':completion:*' list-separator '-->'
     zstyle ':completion:*:manuals' separate-sections true
 
-    ### alias ###
-    # default command
-    ### PROMPT ###
-    #
+    # Menu select
+    zmodload -i zsh/complist
+    bindkey -M menuselect '^h' vi-backward-char
+    bindkey -M menuselect '^j' vi-down-line-or-history
+    bindkey -M menuselect '^k' vi-up-line-or-history
+    bindkey -M menuselect '^l' vi-forward-char
 
-    ## setopt
+    autoload -Uz cdr
+    autoload -Uz history-search-end
+    autoload -Uz modify-current-argument
+    autoload -Uz smart-insert-last-word
+    autoload -Uz terminfo
+    autoload -Uz vcs_info
+    autoload -Uz zcalc
+    autoload -Uz run-help-git
+    autoload -Uz run-help-svk
+    autoload -Uz run-help-svn
+}
+
+## start zsh
+
+# attach tmux
+tmux_automatically_attach_session
+
+# setup
+zsh_keybind
+zsh_alias
+zsh_prompt
+zsh_setopt
+zsh_misc
+
+if [[ -f ~/.zplug/init.zsh ]]; then
+    export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
+    source ~/.zplug/init.zsh
+
+    if ! zplug check --verbose; then
+        printf "Install? [y/N]: "
+        if read -q; then
+            echo; zplug install
+        else
+            echo
+        fi
+    fi
+    zplug load --verbose
 fi
