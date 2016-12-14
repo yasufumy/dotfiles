@@ -21,7 +21,7 @@ for f in .??*; do
 done
 
 # install zplug
-if [ ! -f ~/.zplug/init.zsh ]; then
+if [[ ! -f ~/.zplug/init.zsh ]]; then
     if (( ! $+commands[git] )); then
         echo "git: command not found" >&2
         exit 1
