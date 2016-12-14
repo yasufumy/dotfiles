@@ -246,36 +246,7 @@ zsh_alias() {
     alias pip-update="pip install --upgrade pip; pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"
 }
 
-if zsh_startup; then
-    # Important
-    zstyle ':completion:*:default' menu select=2
-
-    # Completing Groping
-    zstyle ':completion:*:options' description 'yes'
-    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
-    zstyle ':completion:*' group-name ''
-
-    # Completing misc
-    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-    zstyle ':completion:*' verbose yes
-    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
-    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
-    zstyle ':completion:*' use-cache true
-    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-    # Directory
-    zstyle ':completion:*:cd:*' ignore-parents parent pwd
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-    # default:
-    zstyle ':completion:*' list-separator '-->'
-    zstyle ':completion:*:manuals' separate-sections true
-
-    ### alias ###
-    # default command
-    ### PROMPT ###
-    #
+zsh_prompt() {
     terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
     left_down_prompt_preexec() {
         print -rn -- $terminfo[el]
@@ -335,7 +306,9 @@ if zsh_startup; then
     # Other PROMPT
     #
     SPROMPT="%{${fg[red]}%}Did you mean?: %R -> %r [nyae]? %{${reset_color}%}"
+}
 
+pyenv_setup() {
     # setup pyenv
     if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
         # For git-cloned pyenv.
@@ -350,6 +323,38 @@ if zsh_startup; then
         eval "$(pyenv init -)"
         eval "$(pyenv virtualenv-init -)"
     fi
+}
+
+if zsh_startup; then
+    # Important
+    zstyle ':completion:*:default' menu select=2
+
+    # Completing Groping
+    zstyle ':completion:*:options' description 'yes'
+    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
+    zstyle ':completion:*' group-name ''
+
+    # Completing misc
+    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+    zstyle ':completion:*' verbose yes
+    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+    zstyle ':completion:*' use-cache true
+    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+    # Directory
+    zstyle ':completion:*:cd:*' ignore-parents parent pwd
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+    # default:
+    zstyle ':completion:*' list-separator '-->'
+    zstyle ':completion:*:manuals' separate-sections true
+
+    ### alias ###
+    # default command
+    ### PROMPT ###
+    #
 
     ## setopt
     # % Unknown command treat as arguments of cd
