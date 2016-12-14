@@ -12,7 +12,6 @@ autoload -Uz smart-insert-last-word
 autoload -Uz terminfo
 autoload -Uz vcs_info
 autoload -Uz zcalc
-autoload -Uz zmv
 autoload -Uz url-quote-magic; zle -N self-insert url-quote-magic
 autoload     run-help-git
 autoload     run-help-svk
@@ -176,34 +175,7 @@ zsh_keybind() {
         bindkey  '^N' history-substring-search-down
 }
 
-if zsh_startup; then
-    # Important
-    zstyle ':completion:*:default' menu select=2
-
-    # Completing Groping
-    zstyle ':completion:*:options' description 'yes'
-    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
-    zstyle ':completion:*' group-name ''
-
-    # Completing misc
-    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-    zstyle ':completion:*' verbose yes
-    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
-    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
-    zstyle ':completion:*' use-cache true
-    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-
-    # Directory
-    zstyle ':completion:*:cd:*' ignore-parents parent pwd
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
-    # default:
-    zstyle ':completion:*' list-separator '-->'
-    zstyle ':completion:*:manuals' separate-sections true
-
-    ### alias ###
-    # default command
+zsh_alias() {
     if is_linux; then
         alias ls="ls --color -F"
     elif is_osx; then
@@ -217,6 +189,9 @@ if zsh_startup; then
     alias cp="cp -iv"
     alias purge="sudo purge"
     alias grep="grep --color"
+
+    autoload -Uz zmv
+    alias zmv ='noglob zmv -W'
 
     # vim
     alias vi="vim"
@@ -269,6 +244,36 @@ if zsh_startup; then
     alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
     alias update-all="brew update && brew upgrade&& brew cleanup && brew cask update && brew-cask-upgrade && brew cask cleanup && softwareupdate -ia"
     alias pip-update="pip install --upgrade pip; pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"
+}
+
+if zsh_startup; then
+    # Important
+    zstyle ':completion:*:default' menu select=2
+
+    # Completing Groping
+    zstyle ':completion:*:options' description 'yes'
+    zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'
+    zstyle ':completion:*' group-name ''
+
+    # Completing misc
+    zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+    zstyle ':completion:*' verbose yes
+    zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+    zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+    zstyle ':completion:*' use-cache true
+    zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+    # Directory
+    zstyle ':completion:*:cd:*' ignore-parents parent pwd
+    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+    zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+    # default:
+    zstyle ':completion:*' list-separator '-->'
+    zstyle ':completion:*:manuals' separate-sections true
+
+    ### alias ###
+    # default command
     ### PROMPT ###
     #
     terminfo_down_sc=$terminfo[cud1]$terminfo[cuu1]$terminfo[sc]$terminfo[cud1]
