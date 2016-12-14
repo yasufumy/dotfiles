@@ -18,11 +18,14 @@
 
 [diff]
     tool = vimdiff
+    algorithm = histogram
+        compactionHeuristic = true
 
 [core]
     pager = less -q -R
     editor = vim
     excludesfile = ~/.gitignore
+    preloadindex = true
 
 [merge]
     tool = vimdiff
@@ -34,6 +37,8 @@
     ci = commit
     df = diff
     graph = log --graph --date-order --all --pretty=format:'%h %Cred%d %Cgreen%ad %Cblue%cn %Creset%s' --date=short
+    # count commits
+    cc = rev-list --all --count
 
 
 [help]
