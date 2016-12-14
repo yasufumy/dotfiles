@@ -254,14 +254,14 @@ pyenv_setup() {
         # For git-cloned pyenv.
         export PYENV_ROOT="${HOME}/.pyenv"
         path=(${PYENV_ROOT}/bin(N-/^W) ${path})
-        eval "$(pyenv init -)"
+        eval "$(pyenv init - --no-rehash)"
         if [[ -x "${HOME}/.pyenv/plugins/pyenv-virtualenv/bin/pyenv-virtualenv" ]]; then
-            eval "$(pyenv virtualenv-init -)"
+            eval "$(pyenv virtualenv-init - --no-rehash)"
         fi
     elif (( $+commands[pyenv] )); then
         # For Homebrew installed pyenv.
-        eval "$(pyenv init -)"
-        eval "$(pyenv virtualenv-init -)"
+        eval "$(pyenv init - --no-rehash)"
+        eval "$(pyenv virtualenv-init - --no-rehash)"
     fi
 }
 
@@ -404,13 +404,13 @@ if [[ -f ~/.zplug/init.zsh ]]; then
     export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
     source ~/.zplug/init.zsh
 
-    if ! zplug check --verbose; then
-        printf "Install? [y/N]: "
-        if read -q; then
-            echo; zplug install
-        else
-            echo
-        fi
-    fi
+    #if ! zplug check --verbose; then
+    #    printf "Install? [y/N]: "
+    #    if read -q; then
+    #        echo; zplug install
+    #    else
+    #        echo
+    #    fi
+    #fi
     zplug load
 fi

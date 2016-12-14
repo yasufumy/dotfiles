@@ -10,7 +10,7 @@ fpath=( \
 autoload -Uz run-help
 autoload -Uz add-zsh-hook
 autoload -Uz colors && colors
-autoload -Uz compinit && compinit -u
+#autoload -Uz compinit && compinit -u
 autoload -Uz is-at-least
 
 # LANGUAGE must be set by en_US
