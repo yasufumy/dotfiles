@@ -412,5 +412,5 @@ if [[ -f ~/.zplug/init.zsh ]]; then
             echo
         fi
     fi
-    zplug load --verbose
+    zplug load
 fi
