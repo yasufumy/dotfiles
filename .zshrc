@@ -144,7 +144,7 @@ zsh_alias() {
     alias free="free -h"
 
     # python
-    function py() {
+    py() {
         test -z "$1" && ipython --no-confirm-exit || command python "$@"
         #ipython -h >/dev/null 2>&1
         #if [[ $# -eq 0 && $? -eq 0 ]]; then
@@ -398,6 +398,7 @@ zsh_alias
 zsh_prompt
 zsh_setopt
 zsh_misc
+pyenv_setup
 
 if [[ -f ~/.zplug/init.zsh ]]; then
     export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
