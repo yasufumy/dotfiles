@@ -392,14 +392,6 @@ zsh_misc() {
 # attach tmux
 tmux_automatically_attach_session
 
-# setup
-zsh_keybind
-zsh_alias
-zsh_prompt
-zsh_setopt
-zsh_misc
-pyenv_setup
-
 if [[ -f ~/.zplug/init.zsh ]]; then
     export ZPLUG_LOADFILE="$HOME/.zsh/packages.zsh"
     source ~/.zplug/init.zsh
@@ -414,3 +406,11 @@ if [[ -f ~/.zplug/init.zsh ]]; then
     #fi
     zplug load
 fi
+
+# setup
+zsh_keybind
+zsh_alias
+zsh_prompt
+zsh_setopt
+zsh_misc
+pyenv_setup
