@@ -315,6 +315,7 @@ endif
 " key mapping
 inoremap [] []<LEFT>
 inoremap () ()<LEFT>
+inoremap {} {}<LEFT>
 inoremap "" ""<LEFT>
 inoremap '' ''<LEFT>
 inoremap `` ``<LEFT>
