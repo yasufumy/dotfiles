@@ -312,6 +312,13 @@ if s:plug.is_installed("vim-colors-solarized")
     colorscheme solarized
 endif
 
+" key mapping
+inoremap [] []<LEFT>
+inoremap () ()<LEFT>
+inoremap "" ""<LEFT>
+inoremap '' ''<LEFT>
+inoremap `` ``<LEFT>
+
 " search settings
 " don't care about uppercase or lowercase
 set ignorecase
