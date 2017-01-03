@@ -25,6 +25,19 @@ function! s:vimrc_environment()
   return env
 endfunction
 
+function! s:mkdir(dir)
+    if !exists("*mkdir")
+        return s:false
+    endif
+
+    let dir = expand(a:dir)
+    if isdirectory(dir)
+        return s:true
+    endif
+
+    return mkdir(dir,  "p")
+endfunction
+
 " s:env is an environment variable in vimrc
 let s:env   = s:vimrc_environment()
 let s:true  = 1
@@ -299,6 +312,13 @@ if s:plug.is_installed("vim-colors-solarized")
     colorscheme solarized
 endif
 
+" key mapping
+inoremap [] []<LEFT>
+inoremap () ()<LEFT>
+inoremap "" ""<LEFT>
+inoremap '' ''<LEFT>
+inoremap `` ``<LEFT>
+
 " search settings
 " don't care about uppercase or lowercase
 set ignorecase
@@ -334,6 +354,12 @@ set showmatch
 set matchtime=2
 " enable to delete any white space by backspace
 set backspace=indent,eol,start
+" save undo
+if has('persistent_undo')
+    set undofile
+    let &undodir = '~/.vim/undo'
+    call s:mkdir(&undodir)
+endif
 " clipboard settings
 if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
