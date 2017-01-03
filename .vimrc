@@ -25,6 +25,19 @@ function! s:vimrc_environment()
   return env
 endfunction
 
+function! s:mkdir(dir)
+    if !exists("*mkdir")
+        return s:false
+    endif
+
+    let dir = expand(a:dir)
+    if isdirectory(dir)
+        return s:true
+    endif
+
+    return mkdir(dir,  "p")
+endfunction
+
 " s:env is an environment variable in vimrc
 let s:env   = s:vimrc_environment()
 let s:true  = 1
@@ -334,6 +347,12 @@ set showmatch
 set matchtime=2
 " enable to delete any white space by backspace
 set backspace=indent,eol,start
+" save undo
+if has('persistent_undo')
+    set undofile
+    let &undodir = '~/.vim/undo'
+    call s:mkdir(&undodir)
+endif
 " clipboard settings
 if has('unnamedplus')
     set clipboard=unnamedplus,unnamed
