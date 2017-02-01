@@ -222,7 +222,7 @@ zsh_prompt() {
     r-prompt() {
         # pyenv
         if ! [ -z $VIRTUAL_ENV ]; then
-            env='|'`echo $(basename $VIRTUAL_ENV)`
+            env='(%{'${fg[yellow]}'%}'`echo $(basename $VIRTUAL_ENV)`'%{'${reset_color}'%})'
         else
             env=''
         fi
@@ -234,11 +234,12 @@ zsh_prompt() {
             export GIT_PS1_SHOWUPSTREAM="auto"
             export GIT_PS1_DESCRIBE_STYLE="branch"
             export GIT_PS1_SHOWCOLORHINTS=0
-            RPROMPT='(%{'${fg[red]}'%}'`echo $(__git_ps1 "%s")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%})'
-            RPROMPT+=$' [%{${fg[blue]}%}%~$env%{${reset_color}%}]'
+            RPROMPT='$env '
+            RPROMPT+='(%{'${fg[red]}'%}'`echo $(__git_ps1 "%s")|sed -e s/%/%%/|sed -e s/%%%/%%/|sed -e 's/\\$/\\\\$/'`'%{'${reset_color}'%})'
+            RPROMPT+=$' [%{${fg[blue]}%}%~%{${reset_color}%}]'
             RPROMPT+='${p_buffer_stack}'
         else
-            RPROMPT='[%{$fg[blue]%}%~$env%{$reset_color%}]'
+            RPROMPT='$env [%{$fg[blue]%}%~%{$reset_color%}]'
         fi
     }
     add-zsh-hook precmd r-prompt
