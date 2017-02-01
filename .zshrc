@@ -124,9 +124,9 @@ zsh_alias() {
     elif is_osx; then
         alias ls="ls -GF"
     fi
-    alias ll="ls -lF"
-    alias la="ls -aF"
-    alias lla="ls -alF"
+    alias ll="ls -lFh"
+    alias la="ls -aFh"
+    alias lla="ls -alFh"
     alias rm="rm -iv"
     alias mv="mv -iv"
     alias cp="cp -iv"
