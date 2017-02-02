@@ -173,6 +173,8 @@ zsh_alias() {
     alias grb="git rebase"
     alias gsb="git submodule"
     alias grt="git remote"
+    alias grm="git rm"
+    alias grs="git reset"
 
     # labnet
     alias socks="scselect -n socks"
