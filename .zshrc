@@ -125,7 +125,7 @@ zsh_alias() {
         alias ls="ls -GF"
     fi
     alias ll="ls -lFh"
-    alias la="ls -aFh"
+    alias la="ls -aF"
     alias lla="ls -alFh"
     alias rm="rm -iv"
     alias mv="mv -iv"
@@ -173,6 +173,8 @@ zsh_alias() {
     alias grb="git rebase"
     alias gsb="git submodule"
     alias grt="git remote"
+    alias grm="git rm"
+    alias grs="git reset"
 
     # labnet
     alias socks="scselect -n socks"
