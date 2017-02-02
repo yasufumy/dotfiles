@@ -125,7 +125,7 @@ zsh_alias() {
         alias ls="ls -GF"
     fi
     alias ll="ls -lFh"
-    alias la="ls -aFh"
+    alias la="ls -aF"
     alias lla="ls -alFh"
     alias rm="rm -iv"
     alias mv="mv -iv"
