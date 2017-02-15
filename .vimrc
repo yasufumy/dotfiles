@@ -175,16 +175,16 @@ endfunction
 "    silent! close
 "endfunction
 
-function! s:has_plugin(name)
-  " Check {name} plugin whether there is in the runtime path
-  let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
-  let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
-  return &rtp =~# '\c\<' . nosuffix . '\>'
-        \   || globpath(&rtp, suffix, 1) != ''
-        \   || globpath(&rtp, nosuffix, 1) != ''
-        \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
-        \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
-endfunction
+"function! s:has_plugin(name)
+"  " Check {name} plugin whether there is in the runtime path
+"  let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
+"  let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
+"  return &rtp =~# '\c\<' . nosuffix . '\>'
+"        \   || globpath(&rtp, suffix, 1) != ''
+"        \   || globpath(&rtp, nosuffix, 1) != ''
+"        \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
+"        \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
+"endfunction
 
 " plugins setting
 if s:plug.is_installed("vim-plug")
@@ -267,6 +267,13 @@ endif
 if s:plug.is_installed("jedi-vim")
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 0
+endif
+
+if s:plug.is_installed("YankRing.vim")
+    call s:mkdir('~/.vim/tmp')
+    let g:yankring_history_dir = '$HOME/.vim/tmp'
+    let g:yankring_min_element_length = 2
+    let g:yankring_window_height = 14
 endif
 
 if s:plug.is_installed("vim-anzu")
