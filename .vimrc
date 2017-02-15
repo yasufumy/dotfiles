@@ -175,16 +175,16 @@ endfunction
 "    silent! close
 "endfunction
 
-function! s:has_plugin(name)
-  " Check {name} plugin whether there is in the runtime path
-  let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
-  let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
-  return &rtp =~# '\c\<' . nosuffix . '\>'
-        \   || globpath(&rtp, suffix, 1) != ''
-        \   || globpath(&rtp, nosuffix, 1) != ''
-        \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
-        \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
-endfunction
+"function! s:has_plugin(name)
+"  " Check {name} plugin whether there is in the runtime path
+"  let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
+"  let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
+"  return &rtp =~# '\c\<' . nosuffix . '\>'
+"        \   || globpath(&rtp, suffix, 1) != ''
+"        \   || globpath(&rtp, nosuffix, 1) != ''
+"        \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
+"        \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
+"endfunction
 
 " plugins setting
 if s:plug.is_installed("vim-plug")
