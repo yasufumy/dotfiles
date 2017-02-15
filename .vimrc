@@ -269,6 +269,13 @@ if s:plug.is_installed("jedi-vim")
     let g:jedi#show_call_signatures = 0
 endif
 
+if s:plug.is_installed("YankRing.vim")
+    call s:mkdir('~/.vim/tmp')
+    let g:yankring_history_dir = '$HOME/.vim/tmp'
+    let g:yankring_min_element_length = 2
+    let g:yankring_window_height = 14
+endif
+
 if s:plug.is_installed("vim-anzu")
     nmap n <Plug>(anzu-n)
     nmap N <Plug>(anzu-N)
