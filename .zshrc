@@ -159,6 +159,7 @@ zsh_alias() {
     alias gst="git status"
     alias gsth="git stash"
     alias gad="git add"
+    alias gadp="git add -p"
     alias gcino="git commit -a --allow-empty-message -m ''"
     alias gci="git commit"
     alias gcim="git commit -m"
@@ -172,9 +173,10 @@ zsh_alias() {
     alias gmrg="git merge"
     alias grb="git rebase"
     alias gsb="git submodule"
-    alias grt="git remote"
+    alias grmt="git remote"
     alias grm="git rm"
-    alias grs="git reset"
+    alias grst="git reset"
+    alias gfch="git fetch"
 
     # labnet
     alias socks="scselect -n socks"
