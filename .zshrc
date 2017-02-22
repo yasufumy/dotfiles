@@ -176,6 +176,7 @@ zsh_alias() {
     alias grt="git remote"
     alias grm="git rm"
     alias grs="git reset"
+    alias gfch="git fetch"
 
     # labnet
     alias socks="scselect -n socks"
