@@ -173,9 +173,9 @@ zsh_alias() {
     alias gmrg="git merge"
     alias grb="git rebase"
     alias gsb="git submodule"
-    alias grt="git remote"
+    alias grmt="git remote"
     alias grm="git rm"
-    alias grs="git reset"
+    alias grst="git reset"
     alias gfch="git fetch"
 
     # labnet
