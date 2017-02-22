@@ -159,6 +159,7 @@ zsh_alias() {
     alias gst="git status"
     alias gsth="git stash"
     alias gad="git add"
+    alias gadp="git add -p"
     alias gcino="git commit -a --allow-empty-message -m ''"
     alias gci="git commit"
     alias gcim="git commit -m"
