@@ -145,8 +145,7 @@ zsh_alias() {
 
     # python
     py() {
-        test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick \
-        --no-banner --InteractiveShellApp.exec_lines="['%autoreload 2']" || command python "$@"
+        test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick --no-banner|| command python "$@"
         #ipython -h >/dev/null 2>&1
         #if [[ $# -eq 0 && $? -eq 0 ]]; then
         #    command ipython
@@ -159,7 +158,6 @@ zsh_alias() {
     # git
     alias gst="git status"
     alias gsth="git stash"
-    alias gsthu="git stash -u"
     alias gad="git add"
     alias gadp="git add -p"
     alias gcino="git commit -a --allow-empty-message -m ''"
@@ -170,12 +168,10 @@ zsh_alias() {
     alias gbr="git branch"
     alias gbrs="git branch -a"
     alias gco="git checkout"
-    alias gcob="git checkout -b"
     alias glg="git graph"
     alias gdf="git diff"
     alias gmrg="git merge"
     alias grb="git rebase"
-    alias grbi="git rebase -i"
     alias gsb="git submodule"
     alias grmt="git remote"
     alias grm="git rm"
