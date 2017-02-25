@@ -145,7 +145,8 @@ zsh_alias() {
 
     # python
     py() {
-        test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick --no-banner|| command python "$@"
+        test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick \
+        --no-banner --InteractiveShellApp.exec_lines="['%autoreload 2']" || command python "$@"
         #ipython -h >/dev/null 2>&1
         #if [[ $# -eq 0 && $? -eq 0 ]]; then
         #    command ipython
