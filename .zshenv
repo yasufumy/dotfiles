@@ -2,7 +2,7 @@
 typeset -gx -U fpath
 fpath=( \
      ~/.zsh/completion(N-/) \
-     /usr/local/share/site-functions(N-/) \
+     /usr/local/share/zsh/site-functions(N-/) \
      $fpath \
      )
 
