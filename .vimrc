@@ -385,7 +385,7 @@ set list
 " display line number
 set number
 " display line number relative
-set relativenumber
+"set relativenumber
 " wrap long text
 set wrap
 " disable auto newline
@@ -395,7 +395,7 @@ set colorcolumn=80
 " display cursor
 set ruler
 " hightlight cursor line
-set cursorline
+"set cursorline
 " display command autocomplete on statusline
 set wildmenu
 " Wildmenu mode
