@@ -261,12 +261,18 @@ if s:plug.is_installed("neocomplcache.vim")
     let g:neocomplcache_min_syntax_length = 3
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    if has('python')
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    endif
 endif
 
 if s:plug.is_installed("jedi-vim")
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 0
+    if has('python3')
+        let g:jedi#force_py_version = 3
+        let g:pymode_python = 'python3'
+    endif
 endif
 
 if s:plug.is_installed("YankRing.vim")
