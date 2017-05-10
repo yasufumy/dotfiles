@@ -37,6 +37,7 @@ py() {
 alias python="py"
 
 # git
+alias g="git"
 alias gst="git status"
 alias gsth="git stash"
 alias gsthu="git stash -u"
