@@ -3,7 +3,7 @@
     email = yasufumi.taniguchi@gmail.com
 
 [push]
-    default = matching
+    default = current
 
 [color]
     branch = auto
