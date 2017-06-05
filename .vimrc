@@ -99,7 +99,7 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
-
+    Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -318,6 +318,19 @@ if s:plug.is_installed("vim-airline")
     let g:airline#extensions#tabline#show_buffers = 0
     let g:airline#extensions#tabline#tab_min_count = 1
     let g:airline#extensions#tabline#buffer_min_count = 1
+endif
+
+if s:plug.is_installed("syntastic")
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+    let g:syntastic_python_checkers = ['flake8']
+    let g:syntastic_python_flake8_args="--max-line-length=100"
 endif
 
 if s:plug.is_installed("vim-colors-solarized")
