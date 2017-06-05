@@ -99,7 +99,7 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
-    Plug 'vim-syntastic/syntastic', {'on': [], 'do': 'pip install flake8'}
+    Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
