@@ -64,4 +64,4 @@ export KEYTIMEOUT=0
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 # brew cask
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts
