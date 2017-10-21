@@ -61,4 +61,4 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 export KEYTIMEOUT=0
 
 # brew cask
-export HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
