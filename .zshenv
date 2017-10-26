@@ -60,8 +60,5 @@ export LSCOLORS=exfxcxdxbxegedabagacad
 # reduce the mode change delay
 export KEYTIMEOUT=0
 
-# disable virtualenv prompt
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-
 # brew cask
-export HOMEBREW_CASK_OPTS="--appdir=~/Applications --fontdir=/Library/Fonts"
+export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
