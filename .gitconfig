@@ -40,6 +40,8 @@
     # count commits
     cc = rev-list --all --count
 
-
 [help]
     autocorrect = 1
+
+[credential]
+    helper = osxkeychain
