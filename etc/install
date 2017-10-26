@@ -1,5 +1,5 @@
 DOTPATH=~/.dotfiles
-GITHUB_URL="https://github.com/yasfmy/dotfiles.git"
+GITHUB_URL="https://github.com/yasufumy/dotfiles.git"
 
 # use git if it's avaiable
 if type "git" >/dev/null 2>&1; then
