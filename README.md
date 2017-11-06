@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-$ curl -s https://raw.githubusercontent.com/yasfmy/dotfiles/master/etc/install | sh
+$ curl -s https://raw.githubusercontent.com/yasufumy/dotfiles/master/etc/install | sh
 ```
 
 ## Updating
