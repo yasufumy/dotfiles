@@ -32,10 +32,9 @@ setopt transient_rprompt
 
 r-prompt() {
     # pyenv
-    if ! [ -z $VIRTUAL_ENV ]; then
-        env='(%{'${fg[yellow]}'%}'`echo $(basename $VIRTUAL_ENV)`'%{'${reset_color}'%})'
-    else
-        env=''
+    env=''
+    if has "pyenv"; then
+        env='(%{'${fg[yellow]}'%}'`pyenv version-name`'%{'${reset_color}'%})'
     fi
     # git
     if [ `__git_ps1 $?` ]; then
