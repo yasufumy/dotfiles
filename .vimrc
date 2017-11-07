@@ -383,6 +383,9 @@ set showmatch
 set matchtime=2
 " enable to delete any white space by backspace
 set backspace=indent,eol,start
+" spell check
+set spell
+set spelllang=en,cjk
 " save undo
 if has('persistent_undo')
     set undofile
