@@ -371,6 +371,8 @@ set shiftround
 set infercase
 " enable to move area on which theare are no letters
 set virtualedit=all
+" moving curosr will be modern
+set whichwrap=b,s,h,l,<,>,[,],~
 " hidden buffer instead of closing
 set hidden
 " open buffer instead of new open
