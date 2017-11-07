@@ -362,6 +362,7 @@ set encoding=utf-8
 " use space instead of tab
 set expandtab
 " use 4 spaces as tab
+set tabstop=4
 set softtabstop=4
 " use 4 spaces for indent
 set shiftwidth=4
