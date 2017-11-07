@@ -441,3 +441,11 @@ set t_Co=256
 " other settings
 " eliminating delays on ESC
 set timeoutlen=1000 ttimeoutlen=0
+" disable automatic comment insertion
+set formatoptions&
+set formatoptions-=t
+set formatoptions-=c
+set formatoptions-=r
+set formatoptions-=o
+set formatoptions-=v
+set formatoptions+=l
