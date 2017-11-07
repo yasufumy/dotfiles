@@ -362,6 +362,7 @@ set encoding=utf-8
 " use space instead of tab
 set expandtab
 " use 4 spaces as tab
+set tabstop=4
 set softtabstop=4
 " use 4 spaces for indent
 set shiftwidth=4
@@ -371,6 +372,8 @@ set shiftround
 set infercase
 " enable to move area on which theare are no letters
 set virtualedit=all
+" moving curosr will be modern
+set whichwrap=b,s,h,l,<,>,[,],~
 " hidden buffer instead of closing
 set hidden
 " open buffer instead of new open
@@ -381,6 +384,13 @@ set showmatch
 set matchtime=2
 " enable to delete any white space by backspace
 set backspace=indent,eol,start
+" spell check
+set spell
+set spelllang=en,cjk
+" reload changed file
+set autoread
+" save updates when window switches
+set autowrite
 " save undo
 if has('persistent_undo')
     set undofile
@@ -436,3 +446,14 @@ set t_Co=256
 " other settings
 " eliminating delays on ESC
 set timeoutlen=1000 ttimeoutlen=0
+" disable automatic comment insertion
+set formatoptions&
+set formatoptions-=t
+set formatoptions-=c
+set formatoptions-=r
+set formatoptions-=o
+set formatoptions-=v
+set formatoptions+=l
+" indent
+set autoindent
+set smartindent
