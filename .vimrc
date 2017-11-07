@@ -454,3 +454,6 @@ set formatoptions-=r
 set formatoptions-=o
 set formatoptions-=v
 set formatoptions+=l
+" indent
+set autoindent
+set smartindent
