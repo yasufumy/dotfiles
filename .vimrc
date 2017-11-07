@@ -386,6 +386,10 @@ set backspace=indent,eol,start
 " spell check
 set spell
 set spelllang=en,cjk
+" reload changed file
+set autoread
+" save updates when window switches
+set autowrite
 " save undo
 if has('persistent_undo')
     set undofile
