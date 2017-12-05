@@ -66,10 +66,11 @@ alias grst="git reset"
 alias gfch="git fetch"
 
 # labnet
-alias socks="scselect -n socks"
-alias tunnel="ssh -N -f -D 1080 lab"
-alias labnet="tunnel; socks"
-alias homenet="kill $(ps aux | grep 1080 | grep ssh | awk '{print $2}') 2>/dev/null; scselect -n default"
+# alias socks="scselect -n socks"
+# alias tunnel="ssh -N -f -D 1080 lab"
+# alias labnet="tunnel; socks"
+# alias homenet="kill $(ps aux | grep 1080 | grep ssh | awk '{print $2}') 2>/dev/null; scselect -n default"
+alias labnet="ssh lab; sudo networksetup -setsocksfirewallproxystate wi-fi off"
 
 # update
 alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
