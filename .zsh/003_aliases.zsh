@@ -74,5 +74,5 @@ alias labnet="ssh lab; sudo networksetup -setsocksfirewallproxystate wi-fi off"
 
 # update
 alias brew-cask-upgrade="for c in \`brew cask list\`; do ! brew cask info \$c | grep -qF 'Not installed' || brew cask install \$c; done"
-alias update-all="brew update && brew upgrade&& brew cleanup && brew-cask-upgrade && brew cask cleanup && softwareupdate -ia"
+alias update-all="brew update; brew upgrade; brew cleanup; brew-cask-upgrade; brew cask cleanup; zplug update; zplug clear; vim +PlugUpdate +PlugUpgrade +qall; softwareupdate -ia"
 alias pip-update="pip install --upgrade pip; pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U"
