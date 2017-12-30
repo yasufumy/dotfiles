@@ -1,3 +1,10 @@
+# setting path
+typeset -gx -U path
+path=( \
+    /usr/local/bin(N-/) \
+    ~/.zplug/bin(N-/) \
+    "$path[@]" \
+    )
 # setting fpath
 typeset -gx -U fpath
 fpath=( \
@@ -20,9 +27,14 @@ export LC_ALL="${LANGUAGE}"
 export LC_CTYPE="${LANGUAGE}"
 
 # path
-export PATH="/usr/local/bin:${PATH}"
-export PATH="/usr/local/sbin:${PATH}"
+setopt no_global_rcs
 export PATH="${HOME}/.dotfiles/bin:${PATH}"
+# add the path to linuxbrew if it exists
+if [[ -x "${HOME}/.linuxbrew/bin/brew" ]]; then
+    echo "setup path"
+    export PATH="${HOME}/.linuxbrew/bin:${PATH}"
+    export PATH="${HOME}/.linuxbrew/sbin:${PATH}"
+fi
 
 # Editor
 export EDITOR=vim
