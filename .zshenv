@@ -1,3 +1,10 @@
+# setting path
+typeset -gx -U path
+path=( \
+    /usr/local/bin(N-/) \
+    ~/.zplug/bin(N-/) \
+    "$path[@]" \
+    )
 # setting fpath
 typeset -gx -U fpath
 fpath=( \
