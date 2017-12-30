@@ -31,7 +31,6 @@ setopt no_global_rcs
 export PATH="${HOME}/.dotfiles/bin:${PATH}"
 # add the path to linuxbrew if it exists
 if [[ -x "${HOME}/.linuxbrew/bin/brew" ]]; then
-    echo "setup path"
     export PATH="${HOME}/.linuxbrew/bin:${PATH}"
     export PATH="${HOME}/.linuxbrew/sbin:${PATH}"
 fi
