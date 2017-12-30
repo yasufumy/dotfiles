@@ -62,3 +62,9 @@ export KEYTIMEOUT=0
 
 # brew cask
 export HOMEBREW_CASK_OPTS="--appdir=/Applications --fontdir=/Library/Fonts"
+
+# add the path to linuxbrew if it exists
+if [[ -x "${HOME}/.linuxbrew/bin/brew" ]]; then
+    export PATH="${HOME}/.linuxbrew/bin:${PATH}"
+    export PATH="${HOME}/.linuxbrew/sbin:${PATH}"
+fi
