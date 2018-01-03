@@ -99,7 +99,11 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
-    Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
+    if v:version >= 800
+        Plug 'w0rp/ale', {'do': 'pip install autopep8'}
+    else
+        Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
+    endif
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -320,17 +324,49 @@ if s:plug.is_installed("vim-airline")
     let g:airline#extensions#tabline#buffer_min_count = 1
 endif
 
-if s:plug.is_installed("syntastic")
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+if s:plug.is_installed("ale")
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{ALEGetStatusLine(})
+    " set statusline+=%*
+    let g:airline#extensions#ale#enabled = 1
 
+    " check when a file is saved
+    let g:ale_lint_on_save = 1
+    " doesn't check when conding
+    let g:ale_lint_on_text_changed = 0
+    " doesn't check when a file is opend
+    let g:ale_lint_on_enter = 0
+    " open error/warning window
+    let g:ale_open_list = 1
+    " Enable completion where available.
+    let g:ale_completion_enabled = 1
+    " keymapping for jumping next/previous errors
+    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+    nmap <silent> <C-j> <Plug>(ale_next_wrap)
+    " setup for python
+    let g:ale_fixers = {'python': ['autopep8']}
+    let g:ale_python_autopep8_options = '--max-line-length 100'
+endif
+
+if s:plug.is_installed("syntastic")
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
+    let g:airline#extensions#syntastic#enabled = 1
+
+    " open error/warning window
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
+    " check when a file is opend
     let g:syntastic_check_on_open = 1
+    " doesn't check when vim is closed
     let g:syntastic_check_on_wq = 0
+    " keymapping for jumping next/previous errors
+    nmap <silent> <C-k> :lprevious<CR>
+    nmap <silent> <C-j> :lnext<CR>
+    " setup for python
     let g:syntastic_python_checkers = ['flake8']
-    let g:syntastic_python_flake8_args="--max-line-length=100"
+    let g:syntastic_python_flake8_args= "--max-line-length=100"
 endif
 
 if s:plug.is_installed("vim-colors-solarized")
