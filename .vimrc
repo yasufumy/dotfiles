@@ -287,14 +287,15 @@ if s:plug.is_installed("YankRing.vim")
 endif
 
 if s:plug.is_installed("vim-anzu")
-    nmap n <Plug>(anzu-n)
-    nmap N <Plug>(anzu-N)
-    nmap * <Plug>(anzu-star)
-    nmap # <Plug>(anzu-sharp)
-    nmap n <Plug>(anzu-n-with-echo)
-    nmap N <Plug>(anzu-N-with-echo)
-    nmap * <Plug>(anzu-star-with-echo)
-    nmap # <Plug>(anzu-sharp-with-echo)
+    " nmap n <Plug>(anzu-n)
+    " nmap N <Plug>(anzu-N)
+    " nmap * <Plug>(anzu-star)
+    " nmap # <Plug>(anzu-sharp)
+    " nmap n <Plug>(anzu-n-with-echo)
+    " nmap N <Plug>(anzu-N-with-echo)
+    " nmap * <Plug>(anzu-star-with-echo)
+    " nmap # <Plug>(anzu-sharp-with-echo)
+    let g:airline#extensions#anzu#enabled = 1
     augroup vim-anzu
         autocmd!
         autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
