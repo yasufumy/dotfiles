@@ -99,7 +99,12 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
-    Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
+    if v:version >= 800
+        Plug 'w0rp/ale', {'do': 'pip install autopep8'}
+    else
+        Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
+    endif
+    Plug 'google/yapf', {'rtp': 'plugins/vim', 'for': 'python', 'do': 'pip install yapf'}
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -283,14 +288,15 @@ if s:plug.is_installed("YankRing.vim")
 endif
 
 if s:plug.is_installed("vim-anzu")
-    nmap n <Plug>(anzu-n)
-    nmap N <Plug>(anzu-N)
-    nmap * <Plug>(anzu-star)
-    nmap # <Plug>(anzu-sharp)
-    nmap n <Plug>(anzu-n-with-echo)
-    nmap N <Plug>(anzu-N-with-echo)
-    nmap * <Plug>(anzu-star-with-echo)
-    nmap # <Plug>(anzu-sharp-with-echo)
+    " nmap n <Plug>(anzu-n)
+    " nmap N <Plug>(anzu-N)
+    " nmap * <Plug>(anzu-star)
+    " nmap # <Plug>(anzu-sharp)
+    " nmap n <Plug>(anzu-n-with-echo)
+    " nmap N <Plug>(anzu-N-with-echo)
+    " nmap * <Plug>(anzu-star-with-echo)
+    " nmap # <Plug>(anzu-sharp-with-echo)
+    let g:airline#extensions#anzu#enabled = 1
     augroup vim-anzu
         autocmd!
         autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
@@ -320,17 +326,56 @@ if s:plug.is_installed("vim-airline")
     let g:airline#extensions#tabline#buffer_min_count = 1
 endif
 
-if s:plug.is_installed("syntastic")
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
+if s:plug.is_installed("ale")
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{ALEGetStatusLine(})
+    " set statusline+=%*
+    let g:airline#extensions#ale#enabled = 1
 
+    " automatically fix syntax
+    let g:ale_fix_on_save = 1
+    " check when a file is saved
+    let g:ale_lint_on_save = 1
+    " doesn't check when conding
+    let g:ale_lint_on_text_changed = 'never'
+    " doesn't check when a file is opend
+    let g:ale_lint_on_enter = 0
+    " open error/warning window
+    let g:ale_open_list = 1
+    " Enable completion where available.
+    let g:ale_completion_enabled = 1
+    " keymapping for jumping next/previous errors
+    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+    nmap <silent> <C-j> <Plug>(ale_next_wrap)
+    " setup for python
+    let g:ale_fixers = {'python': ['autopep8', 'yapf']}
+    let g:ale_python_autopep8_options = '--max-line-length 100'
+endif
+
+if s:plug.is_installed("syntastic")
+    " set statusline+=%#warningmsg#
+    " set statusline+=%{SyntasticStatuslineFlag()}
+    " set statusline+=%*
+    let g:airline#extensions#syntastic#enabled = 1
+
+    " open error/warning window
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
+    " check when a file is opend
     let g:syntastic_check_on_open = 1
+    " doesn't check when vim is closed
     let g:syntastic_check_on_wq = 0
+    " keymapping for jumping next/previous errors
+    nmap <silent> <C-k> :lprevious<CR>
+    nmap <silent> <C-j> :lnext<CR>
+    " setup for python
     let g:syntastic_python_checkers = ['flake8']
-    let g:syntastic_python_flake8_args="--max-line-length=100"
+    let g:syntastic_python_flake8_args= "--max-line-length=100"
+endif
+
+if s:plug.is_installed("yapf")
+    map <C-y> :call yapf#YAPF()<cr>
+    imap <C-y> <C-o>:call yapf#YAPF()<cr>
 endif
 
 if s:plug.is_installed("vim-colors-solarized")
