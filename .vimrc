@@ -104,6 +104,7 @@ if s:plug.ready()
     else
         Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
     endif
+    Plug 'google/yapf', {'rtp': 'plugins/vim', 'for': 'python', 'do': 'pip install yapf'}
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -368,6 +369,11 @@ if s:plug.is_installed("syntastic")
     " setup for python
     let g:syntastic_python_checkers = ['flake8']
     let g:syntastic_python_flake8_args= "--max-line-length=100"
+endif
+
+if s:plug.is_installed("yapf")
+    map <C-y> :call yapf#YAPF()<cr>
+    imap <C-y> <C-o>:call yapf#YAPF()<cr>
 endif
 
 if s:plug.is_installed("vim-colors-solarized")
