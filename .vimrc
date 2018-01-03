@@ -332,10 +332,12 @@ if s:plug.is_installed("ale")
     " set statusline+=%*
     let g:airline#extensions#ale#enabled = 1
 
+    " automatically fix syntax
+    let g:ale_fix_on_save = 1
     " check when a file is saved
     let g:ale_lint_on_save = 1
     " doesn't check when conding
-    let g:ale_lint_on_text_changed = 0
+    let g:ale_lint_on_text_changed = 'never'
     " doesn't check when a file is opend
     let g:ale_lint_on_enter = 0
     " open error/warning window
@@ -346,7 +348,7 @@ if s:plug.is_installed("ale")
     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
     " setup for python
-    let g:ale_fixers = {'python': ['autopep8']}
+    let g:ale_fixers = {'python': ['autopep8', 'yapf']}
     let g:ale_python_autopep8_options = '--max-line-length 100'
 endif
 
