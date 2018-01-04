@@ -76,7 +76,7 @@ if s:plug.ready()
     Plug 'Shougo/vimproc', {'do': 'make'}
 
     " file and directory
-    Plug 'Shougo/vimfiler', {'on': ['VimFilerTab', 'VimFiler', 'VimFilerExplorer']}
+    Plug 'Shougo/vimfiler'
     Plug 'Shougo/unite.vim'
 
     " compl
@@ -205,6 +205,9 @@ endif
 
 if s:plug.is_installed("vimfiler")
     let g:vimfiler_safe_mode_by_default = 0
+    let g:vimfiler_as_default_explorer = 1
+    " autocmd VimEnter * if !argc() | VimFiler | endif
+    autocmd VimEnter * VimFilerExplorer
 endif
 
 if s:plug.is_installed("neocomplete.vim")
