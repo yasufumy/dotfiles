@@ -1,6 +1,7 @@
 # setting path
 typeset -gx -U path
 path=( \
+    /usr/sbin(N-/) \
     /usr/local/bin(N-/) \
     ~/.zplug/bin(N-/) \
     "$path[@]" \
