@@ -337,7 +337,7 @@ if s:plug.is_installed("ale")
     let g:airline#extensions#ale#enabled = 1
 
     " automatically fix syntax
-    let g:ale_fix_on_save = 1
+    " let g:ale_fix_on_save = 1
     " check when a file is saved
     let g:ale_lint_on_save = 1
     " doesn't check when conding
@@ -353,7 +353,7 @@ if s:plug.is_installed("ale")
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
     " setup for python
     let g:ale_fixers = {'python': ['autopep8', 'yapf']}
-    let g:ale_python_autopep8_options = '--max-line-length 100'
+    let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
 
 if s:plug.is_installed("syntastic")
