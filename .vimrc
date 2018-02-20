@@ -348,6 +348,8 @@ if s:plug.is_installed("ale")
     let g:ale_open_list = 1
     " Enable completion where available.
     let g:ale_completion_enabled = 1
+    " Keep the sign gutter open
+    let g:ale_sign_column_always = 1
     " keymapping for jumping next/previous errors
     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
