@@ -101,6 +101,7 @@ if s:plug.ready()
     Plug 'kana/vim-smartchr', {'on': []}
     if v:version >= 800
         Plug 'w0rp/ale', {'do': 'pip install autopep8'}
+        " Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8'}
     else
         Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
     endif
@@ -337,9 +338,9 @@ if s:plug.is_installed("ale")
     let g:airline#extensions#ale#enabled = 1
 
     " automatically fix syntax
-    " let g:ale_fix_on_save = 1
+    let g:ale_fix_on_save = 1
     " check when a file is saved
-    let g:ale_lint_on_save = 1
+    " let g:ale_lint_on_save = 1
     " doesn't check when conding
     let g:ale_lint_on_text_changed = 'never'
     " doesn't check when a file is opend
@@ -354,7 +355,9 @@ if s:plug.is_installed("ale")
     nmap <silent> <C-k> <Plug>(ale_previous_wrap)
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
     " setup for python
-    let g:ale_fixers = {'python': ['autopep8', 'yapf']}
+    " let g:ale_linters = {'python': ['flake8']}
+    let g:ale_fixers = {'python': ['autopep8']}
+    " "let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
 
@@ -376,7 +379,7 @@ if s:plug.is_installed("syntastic")
     nmap <silent> <C-j> :lnext<CR>
     " setup for python
     let g:syntastic_python_checkers = ['flake8']
-    let g:syntastic_python_flake8_args= "--max-line-length=100"
+    let g:syntastic_python_flake8_args= "--max-line-length=120"
 endif
 
 if s:plug.is_installed("yapf")
