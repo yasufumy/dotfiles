@@ -9,3 +9,8 @@ elif (( $+commands[pyenv] )); then
     export PYENV_ROOT=$(pyenv root)
     eval "$(pyenv init - --no-rehash)"
 fi
+
+# gitignore command
+function gi() {
+    curl -L -s https://www.gitignore.io/api/$@;
+}
