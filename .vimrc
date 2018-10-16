@@ -88,7 +88,6 @@ if s:plug.ready()
     if v:version >= 800
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8'}
     endif
-    Plug 'google/yapf', {'rtp': 'plugins/vim', 'for': 'python', 'do': 'pip install yapf'}
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -267,11 +266,6 @@ if s:plug.is_installed("ale")
     let g:ale_fixers = {'python': ['autopep8']}
     let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
-endif
-
-if s:plug.is_installed("yapf")
-    map <C-y> :call yapf#YAPF()<cr>
-    imap <C-y> <C-o>:call yapf#YAPF()<cr>
 endif
 
 if s:plug.is_installed("vim-colors-solarized")
