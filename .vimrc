@@ -215,9 +215,11 @@ if s:plug.is_installed("vim-anzu")
 endif
 
 if s:plug.is_installed("vim-easymotion")
-    let g:EasyMotion_use_upper = 1
-    let g:EasyMotion_smartcase = 1
-    let g:EasyMotion_use_smartsign_us = 1
+    nmap s <Plug>(easymotion-overwin-f2)
+    " let g:EasyMotion_use_upper = 1
+    " let g:EasyMotion_smartcase = 1
+    " let g:EasyMotion_use_smartsign_us = 1
+    let g:EasyMotion_do_mapping = 0
 endif
 
 if s:plug.is_installed("vim-smartchr")
