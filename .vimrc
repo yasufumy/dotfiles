@@ -73,8 +73,6 @@ if s:plug.ready()
     " start to manage with vim-plug
     call plug#begin(s:plug.base)
 
-    Plug 'Shougo/vimproc', {'do': 'make'}
-
     " file and directory
     Plug 'ctrlpvim/ctrlp.vim'
 
