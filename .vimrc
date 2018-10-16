@@ -26,7 +26,7 @@ function! s:vimrc_environment()
 endfunction
 
 function! s:mkdir(dir)
-    if !exists("*mkdir")
+    if !exists('*mkdir')
         return s:false
     endif
 
@@ -35,7 +35,7 @@ function! s:mkdir(dir)
         return s:true
     endif
 
-    return mkdir(dir,  "p")
+    return mkdir(dir,  'p')
 endfunction
 
 " s:env is an environment variable in vimrc
@@ -59,9 +59,9 @@ endif
 
 " vim-plug
 let s:plug = {
-      \ "plug": expand(s:env.path.vim) . "/autoload/plug.vim",
-      \ "base": expand(s:env.path.vim) . "/plugged",
-      \ "url": "https://raw.github.com/junegunn/vim-plug/master/plug.vim",
+      \ 'plug': expand(s:env.path.vim) . '/autoload/plug.vim',
+      \ 'base': expand(s:env.path.vim) . '/plugged',
+      \ 'url': 'https://raw.github.com/junegunn/vim-plug/master/plug.vim',
       \ }
 
 " check if there is plug.vim
@@ -106,7 +106,7 @@ if s:plug.ready()
 else
     " install vim-plug
     function! s:plug.init()
-        let ret = system(printf("curl -fLo %s --create-dirs %s", self.plug, self.url))
+        let ret = system(printf('curl -fLo %s --create-dirs %s', self.plug, self.url))
         if v:shell_error
             echomsg 's:plug_init: error occured'
             return 1
@@ -175,9 +175,9 @@ endfunction
 "endfunction
 
 " plugins setting
-if s:plug.is_installed("vim-plug")
+if s:plug.is_installed('vim-plug')
     function! PlugList(A,L,P)
-      return join(s:plug.list, "\n")
+      return join(s:plug.list, '\n')
     endfunction
 
     command! -nargs=1 -complete=custom,PlugList PlugHas
@@ -186,10 +186,10 @@ if s:plug.is_installed("vim-plug")
           \ | endif
 endif
 
-if s:plug.is_installed("jedi-vim")
+if s:plug.is_installed('jedi-vim')
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 0
-    let g:jedi#completions_command = "<C-n>"
+    let g:jedi#completions_command = '<C-n>'
     if has('python3')
         let g:jedi#force_py_version = 3
         let g:pymode_python = 'python3'
@@ -197,7 +197,7 @@ if s:plug.is_installed("jedi-vim")
     set omnifunc=jedi#completions
 endif
 
-if s:plug.is_installed("vim-anzu")
+if s:plug.is_installed('vim-anzu')
     " nmap n <Plug>(anzu-n)
     " nmap N <Plug>(anzu-N)
     " nmap * <Plug>(anzu-star)
@@ -213,7 +213,7 @@ if s:plug.is_installed("vim-anzu")
     augroup END
 endif
 
-if s:plug.is_installed("vim-easymotion")
+if s:plug.is_installed('vim-easymotion')
     nmap s <Plug>(easymotion-overwin-f2)
     " let g:EasyMotion_use_upper = 1
     " let g:EasyMotion_smartcase = 1
@@ -221,11 +221,11 @@ if s:plug.is_installed("vim-easymotion")
     let g:EasyMotion_do_mapping = 0
 endif
 
-if s:plug.is_installed("vim-smartchr")
+if s:plug.is_installed('vim-smartchr')
     inoremap <expr> , smartchr#loop(', ', ',')
 endif
 
-if s:plug.is_installed("vim-airline")
+if s:plug.is_installed('vim-airline')
     let g:airline_theme = 'powerlineish'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
@@ -238,7 +238,7 @@ if s:plug.is_installed("vim-airline")
     let g:airline#extensions#tabline#buffer_min_count = 1
 endif
 
-if s:plug.is_installed("ale")
+if s:plug.is_installed('ale')
     " set statusline+=%#warningmsg#
     " set statusline+=%{ALEGetStatusLine(})
     " set statusline+=%*
@@ -268,7 +268,7 @@ if s:plug.is_installed("ale")
     let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
 
-if s:plug.is_installed("vim-colors-solarized")
+if s:plug.is_installed('vim-colors-solarized')
     " set colorscheme solarized
     colorscheme solarized
 endif
