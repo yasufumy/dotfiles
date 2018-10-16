@@ -73,36 +73,20 @@ if s:plug.ready()
     " start to manage with vim-plug
     call plug#begin(s:plug.base)
 
-    Plug 'Shougo/vimproc', {'do': 'make'}
-
     " file and directory
-    Plug 'Shougo/vimfiler'
-    Plug 'Shougo/unite.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
 
     " compl
-    Plug 'tpope/vim-fugitive'
-    if has('lua')
-        Plug 'Shougo/neocomplete.vim', {'on': []}
-        let s:comp = 'neocomplete.vim'
-    else
-        Plug 'Shougo/neocomplcache.vim', {'on': []}
-        let s:comp = 'neocomplcache.vim'
-    endif
     Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
     " useful
-    Plug 'gregsexton/gitv', {'on': 'Gitv'}
     Plug 'tpope/vim-surround'
-    Plug 'vim-scripts/Align'
-    Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
     if v:version >= 800
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8'}
-    else
-        Plug 'vim-syntastic/syntastic', {'do': 'pip install flake8'}
     endif
     Plug 'google/yapf', {'rtp': 'plugins/vim', 'for': 'python', 'do': 'pip install yapf'}
 
@@ -115,7 +99,7 @@ if s:plug.ready()
 
     augroup load_us_ycm
         autocmd!
-        autocmd InsertEnter * call plug#load('vim-smartchr', s:comp)
+        autocmd InsertEnter * call plug#load('vim-smartchr')
                     \ | autocmd! load_us_ycm
     augroup END
 
@@ -203,77 +187,6 @@ if s:plug.is_installed("vim-plug")
           \ | endif
 endif
 
-if s:plug.is_installed("vimfiler")
-    let g:vimfiler_safe_mode_by_default = 0
-    let g:vimfiler_as_default_explorer = 1
-    autocmd VimEnter * if !argc() | VimFiler | endif
-    " autocmd VimEnter * VimFilerExplorer
-endif
-
-if s:plug.is_installed("neocomplete.vim")
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#enable_camel_case = 1
-    let g:neocomplete#enable_underbar_completion = 1
-    let g:neocomplete#enable_fuzzy_completion = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#auto_completion_start_length = 2
-    let g:neocomplete#manual_completion_start_length = 0
-    let g:neocomplete#min_keyword_length = 3
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:jedi#auto_vim_configuration = 0
-    let g:neocomplete#sources#omni#input_patterns = {
-          \ 'ruby' : '[^. *\t]\.\w*\|\h\w*::',
-          \}
-    let g:neocomplete#force_omni_input_patterns = {
-          \ 'python': '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-          \}
-
-    let g:neocomplete#enable_auto_delimiter = 1
-    let g:neocomplete#disable_auto_select_buffer_name_pattern =
-          \ '\[Command Line\]'
-    let g:neocomplete#max_list = 100
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    if !exists('g:neocomplete#sources#omni#functions')
-      let g:neocomplete#sources#omni#functions = {}
-    endif
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#enable_auto_close_preview = 1
-
-    let g:neocomplete#force_omni_input_patterns.markdown =
-          \ ':\w*'
-    let g:neocomplete#force_omni_input_patterns.ruby =
-          \ '[^. *\t]\.\w*\|\h\w*::\w*'
-
-    let g:neocomplete#force_omni_input_patterns.python =
-          \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-    let g:neocomplete#sources#omni#functions.go =
-          \ 'gocomplete#Complete'
-
-    let g:neocomplete#sources#omni#input_patterns.php =
-          \'\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-    let g:neocomplete#fallback_mappings = ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
-endif
-
-if s:plug.is_installed("neocomplcache.vim")
-    let g:acp_enableAtStartup = 0
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_min_syntax_length = 3
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    if has('python')
-        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    endif
-endif
-
 if s:plug.is_installed("jedi-vim")
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 0
@@ -282,13 +195,7 @@ if s:plug.is_installed("jedi-vim")
         let g:jedi#force_py_version = 3
         let g:pymode_python = 'python3'
     endif
-endif
-
-if s:plug.is_installed("YankRing.vim")
-    call s:mkdir('~/.vim/tmp')
-    let g:yankring_history_dir = '$HOME/.vim/tmp'
-    let g:yankring_min_element_length = 2
-    let g:yankring_window_height = 14
+    set omnifunc=jedi#completions
 endif
 
 if s:plug.is_installed("vim-anzu")
@@ -308,9 +215,11 @@ if s:plug.is_installed("vim-anzu")
 endif
 
 if s:plug.is_installed("vim-easymotion")
-    let g:EasyMotion_use_upper = 1
-    let g:EasyMotion_smartcase = 1
-    let g:EasyMotion_use_smartsign_us = 1
+    nmap s <Plug>(easymotion-overwin-f2)
+    " let g:EasyMotion_use_upper = 1
+    " let g:EasyMotion_smartcase = 1
+    " let g:EasyMotion_use_smartsign_us = 1
+    let g:EasyMotion_do_mapping = 0
 endif
 
 if s:plug.is_installed("vim-smartchr")
@@ -358,27 +267,6 @@ if s:plug.is_installed("ale")
     let g:ale_fixers = {'python': ['autopep8']}
     let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
-endif
-
-if s:plug.is_installed("syntastic")
-    " set statusline+=%#warningmsg#
-    " set statusline+=%{SyntasticStatuslineFlag()}
-    " set statusline+=%*
-    let g:airline#extensions#syntastic#enabled = 1
-
-    " open error/warning window
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_auto_loc_list = 1
-    " check when a file is opend
-    let g:syntastic_check_on_open = 1
-    " doesn't check when vim is closed
-    let g:syntastic_check_on_wq = 0
-    " keymapping for jumping next/previous errors
-    nmap <silent> <C-k> :lprevious<CR>
-    nmap <silent> <C-j> :lnext<CR>
-    " setup for python
-    let g:syntastic_python_checkers = ['flake8']
-    let g:syntastic_python_flake8_args= "--max-line-length=120"
 endif
 
 if s:plug.is_installed("yapf")
