@@ -83,7 +83,6 @@ if s:plug.ready()
 
     " useful
     Plug 'tpope/vim-surround'
-    Plug 'vim-scripts/YankRing.vim'
     Plug 'osyo-manga/vim-anzu'
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
@@ -251,13 +250,6 @@ if s:plug.is_installed("jedi-vim")
         let g:pymode_python = 'python3'
     endif
     set omnifunc=jedi#completions
-endif
-
-if s:plug.is_installed("YankRing.vim")
-    call s:mkdir('~/.vim/tmp')
-    let g:yankring_history_dir = '$HOME/.vim/tmp'
-    let g:yankring_min_element_length = 2
-    let g:yankring_window_height = 14
 endif
 
 if s:plug.is_installed("vim-anzu")
