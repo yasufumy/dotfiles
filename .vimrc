@@ -187,58 +187,6 @@ if s:plug.is_installed("vim-plug")
           \ | endif
 endif
 
-if s:plug.is_installed("neocomplete.vim")
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#enable_camel_case = 1
-    let g:neocomplete#enable_underbar_completion = 1
-    let g:neocomplete#enable_fuzzy_completion = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#auto_completion_start_length = 2
-    let g:neocomplete#manual_completion_start_length = 0
-    let g:neocomplete#min_keyword_length = 3
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:jedi#auto_vim_configuration = 0
-    let g:neocomplete#sources#omni#input_patterns = {
-          \ 'ruby' : '[^. *\t]\.\w*\|\h\w*::',
-          \}
-    let g:neocomplete#force_omni_input_patterns = {
-          \ 'python': '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-          \}
-
-    let g:neocomplete#enable_auto_delimiter = 1
-    let g:neocomplete#disable_auto_select_buffer_name_pattern =
-          \ '\[Command Line\]'
-    let g:neocomplete#max_list = 100
-    if !exists('g:neocomplete#sources#omni#input_patterns')
-      let g:neocomplete#sources#omni#input_patterns = {}
-    endif
-    if !exists('g:neocomplete#sources#omni#functions')
-      let g:neocomplete#sources#omni#functions = {}
-    endif
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#enable_auto_close_preview = 1
-
-    let g:neocomplete#force_omni_input_patterns.markdown =
-          \ ':\w*'
-    let g:neocomplete#force_omni_input_patterns.ruby =
-          \ '[^. *\t]\.\w*\|\h\w*::\w*'
-
-    let g:neocomplete#force_omni_input_patterns.python =
-          \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-
-    let g:neocomplete#sources#omni#functions.go =
-          \ 'gocomplete#Complete'
-
-    let g:neocomplete#sources#omni#input_patterns.php =
-          \'\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-    let g:neocomplete#fallback_mappings = ["\<C-x>\<C-o>", "\<C-x>\<C-n>"]
-endif
-
 if s:plug.is_installed("jedi-vim")
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 0
