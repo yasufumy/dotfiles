@@ -194,7 +194,7 @@ if s:plug.is_installed('jedi-vim')
         let g:jedi#force_py_version = 3
         let g:pymode_python = 'python3'
     endif
-    set omnifunc=jedi#completions
+    autocmd FileType python setlocal omnifunc=jedi#completions
 endif
 
 if s:plug.is_installed('vim-anzu')
