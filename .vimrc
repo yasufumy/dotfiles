@@ -188,7 +188,7 @@ endif
 
 if s:plug.is_installed('jedi-vim')
     let g:jedi#popup_select_first = 0
-    let g:jedi#show_call_signatures = 1
+    let g:jedi#show_call_signatures = 2
     let g:jedi#completions_command = '<C-n>'
     if has('python3')
         let g:jedi#force_py_version = 3
