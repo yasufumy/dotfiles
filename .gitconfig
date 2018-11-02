@@ -30,6 +30,9 @@
 [merge]
     tool = vimdiff
 
+[pager]
+    branch = cat
+
 [alias]
     co = checkout
     br = branch
