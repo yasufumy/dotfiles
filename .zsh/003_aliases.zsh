@@ -23,18 +23,20 @@ alias df="df -h"
 alias free="free -h"
 
 # python
-py() {
-    test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick \
-                            --InteractiveShellApp.exec_lines="['%autoreload 2']" \
-                            --no-banner|| command python "$@"
-    #ipython -h >/dev/null 2>&1
-    #if [[ $# -eq 0 && $? -eq 0 ]]; then
-    #    command ipython
-    #else
-    #    command python "$@"
-    #fi
-}
-alias python="py"
+# py() {
+#     test -z "$1" && ipython --no-confirm-exit --ext=autoreload --quick \
+#                             --InteractiveShellApp.exec_lines="['%autoreload 2']" \
+#                             --no-banner|| command python "$@"
+#     #ipython -h >/dev/null 2>&1
+#     #if [[ $# -eq 0 && $? -eq 0 ]]; then
+#     #    command ipython
+#     #else
+#     #    command python "$@"
+#     #fi
+# }
+# alias python="py"
+alias ipy="ipython --no-confirm-exit --no-banner --quick --ext=autoreload \
+                   --InteractiveShellApp.exec_lines=\"['%autoreload 2', 'import os,sys']\""
 
 # git
 alias g="git"
