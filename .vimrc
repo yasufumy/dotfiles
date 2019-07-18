@@ -85,6 +85,7 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
+    Plug 'kkoomen/vim-doge'
     if v:version >= 800
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8'}
     endif
@@ -223,6 +224,10 @@ endif
 
 if s:plug.is_installed('vim-smartchr')
     inoremap <expr> , smartchr#loop(', ', ',')
+endif
+
+if s:plug.is_installed('vim-doge')
+    let g:doge_doc_standard_python = 'google'
 endif
 
 if s:plug.is_installed('vim-airline')
