@@ -35,6 +35,8 @@ if [[ -x "${HOME}/.linuxbrew/bin/brew" ]]; then
     export PATH="${HOME}/.linuxbrew/bin:${PATH}"
     export PATH="${HOME}/.linuxbrew/sbin:${PATH}"
 fi
+# for pipx
+export PATH="${HOME}/.local/bin:${PATH}"
 
 # Editor
 export EDITOR=vim
