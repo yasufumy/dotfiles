@@ -77,7 +77,11 @@ if s:plug.ready()
     Plug 'ctrlpvim/ctrlp.vim'
 
     " compl
-    Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+    if v:version >= 800
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    else
+        Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+    endif
 
     " useful
     Plug 'tpope/vim-surround'
@@ -185,6 +189,12 @@ if s:plug.is_installed('vim-plug')
           \ if s:plug.is_installed('<args>')
           \ | echo s:plug.plugs['<args>'].dir
           \ | endif
+endif
+
+if s:plug.is_installed('coc.nvim')
+    set cmdheight=2
+    set shortmess+=c
+    set signcolumn=yes
 endif
 
 if s:plug.is_installed('jedi-vim')
