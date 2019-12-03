@@ -74,7 +74,9 @@ if s:plug.ready()
     call plug#begin(s:plug.base)
 
     " file and directory
-    Plug 'ctrlpvim/ctrlp.vim'
+    " Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+    Plug 'junegunn/fzf.vim'
 
     " compl
     if v:version >= 800
@@ -95,8 +97,8 @@ if s:plug.ready()
     endif
 
     " colorscheme
-    " Plug 'altercation/vim-colors-solarized'
-    Plug 'cocopon/iceberg.vim'
+    Plug 'altercation/vim-colors-solarized'
+    " Plug 'cocopon/iceberg.vim'
 
     " statusline
     Plug 'vim-airline/vim-airline'
@@ -284,13 +286,13 @@ if s:plug.is_installed('ale')
     let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
 
-"if s:plug.is_installed('vim-colors-solarized')
-"    " set colorscheme solarized
-"    colorscheme solarized
-"endif
-if s:plug.is_installed('iceberg.vim')
-    colorscheme iceberg
+if s:plug.is_installed('vim-colors-solarized')
+    " set colorscheme solarized
+    colorscheme solarized
 endif
+" if s:plug.is_installed('iceberg.vim')
+"     colorscheme iceberg
+" endif
 
 " key mapping
 inoremap [] []<LEFT>
