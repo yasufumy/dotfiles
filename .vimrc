@@ -95,7 +95,8 @@ if s:plug.ready()
     endif
 
     " colorscheme
-    Plug 'altercation/vim-colors-solarized'
+    " Plug 'altercation/vim-colors-solarized'
+    Plug 'cocopon/iceberg.vim'
 
     " statusline
     Plug 'vim-airline/vim-airline'
@@ -241,7 +242,7 @@ if s:plug.is_installed('vim-doge')
 endif
 
 if s:plug.is_installed('vim-airline')
-    let g:airline_theme = 'powerlineish'
+    let g:airline_theme = 'iceberg'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
     let g:airline_left_alt_sep = ''
@@ -283,9 +284,12 @@ if s:plug.is_installed('ale')
     let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
 
-if s:plug.is_installed('vim-colors-solarized')
-    " set colorscheme solarized
-    colorscheme solarized
+"if s:plug.is_installed('vim-colors-solarized')
+"    " set colorscheme solarized
+"    colorscheme solarized
+"endif
+if s:plug.is_installed('iceberg.vim')
+    colorscheme iceberg
 endif
 
 " key mapping
