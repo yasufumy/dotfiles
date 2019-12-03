@@ -74,10 +74,16 @@ if s:plug.ready()
     call plug#begin(s:plug.base)
 
     " file and directory
-    Plug 'ctrlpvim/ctrlp.vim'
+    " Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+    Plug 'junegunn/fzf.vim'
 
     " compl
-    Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+    if v:version >= 800
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    else
+        Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+    endif
 
     " useful
     Plug 'tpope/vim-surround'
@@ -92,6 +98,7 @@ if s:plug.ready()
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
+    " Plug 'cocopon/iceberg.vim'
 
     " statusline
     Plug 'vim-airline/vim-airline'
@@ -187,6 +194,12 @@ if s:plug.is_installed('vim-plug')
           \ | endif
 endif
 
+if s:plug.is_installed('coc.nvim')
+    set cmdheight=2
+    set shortmess+=c
+    set signcolumn=yes
+endif
+
 if s:plug.is_installed('jedi-vim')
     let g:jedi#popup_select_first = 0
     let g:jedi#show_call_signatures = 2
@@ -277,6 +290,9 @@ if s:plug.is_installed('vim-colors-solarized')
     " set colorscheme solarized
     colorscheme solarized
 endif
+" if s:plug.is_installed('iceberg.vim')
+"     colorscheme iceberg
+" endif
 
 " key mapping
 inoremap [] []<LEFT>
