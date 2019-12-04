@@ -74,16 +74,15 @@ if s:plug.ready()
     call plug#begin(s:plug.base)
 
     " file and directory
-    " Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
     Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
     Plug 'junegunn/fzf.vim'
 
     " compl
     if v:version >= 800
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    else
-        Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
     endif
+    Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
 
     " useful
     Plug 'tpope/vim-surround'
