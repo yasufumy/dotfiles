@@ -92,7 +92,7 @@ if s:plug.ready()
     Plug 'kana/vim-smartchr', {'on': []}
     Plug 'kkoomen/vim-doge'
     if v:version >= 800
-        Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8'}
+        Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8 isort'}
     endif
 
     " colorscheme
@@ -280,7 +280,7 @@ if s:plug.is_installed('ale')
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
     " setup for python
     let g:ale_linters = {'python': ['flake8']}
-    let g:ale_fixers = {'python': ['autopep8']}
+    let g:ale_fixers = {'python': ['autopep8', 'isort']}
     let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
 endif
