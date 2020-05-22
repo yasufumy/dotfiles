@@ -90,8 +90,8 @@ if s:plug.ready()
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
-    Plug 'kkoomen/vim-doge'
     if v:version >= 800
+        Plug 'kkoomen/vim-doge'
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8 isort'}
     endif
 
