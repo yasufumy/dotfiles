@@ -293,6 +293,9 @@ endif
 "     colorscheme iceberg
 " endif
 
+" Netrw tree view
+let g:netrw_liststyle = 3
+
 " key mapping
 inoremap [] []<LEFT>
 inoremap () ()<LEFT>
