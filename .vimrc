@@ -349,8 +349,10 @@ set autowrite
 " save undo
 if has('persistent_undo')
     set undofile
-    let &undodir = '~/.vim/undo'
-    call s:mkdir(&undodir)
+    if !isdirectory(expand("$HOME/.vim/undo"))
+        call mkdir(expand("$HOME/.vim/undo"), "p")
+    endif
+    set undodir=$HOME/.vim/undo
 endif
 " clipboard settings
 if has('unnamedplus')
