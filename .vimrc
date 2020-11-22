@@ -283,6 +283,7 @@ if s:plug.is_installed('ale')
     let g:ale_fixers = {'python': ['autopep8', 'isort', 'black']}
     let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
+    let g:ale_python_black_options = '--line-length 120'
 endif
 
 if s:plug.is_installed('vim-colors-solarized')
