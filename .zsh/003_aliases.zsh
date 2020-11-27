@@ -35,8 +35,7 @@ alias free="free -h"
 #     #fi
 # }
 # alias python="py"
-alias ipy="ipython --no-confirm-exit --no-banner --quick --ext=autoreload \
-                   --InteractiveShellApp.exec_lines=\"['%autoreload 2', 'import os,sys']\""
+alias ipy="ipython --no-confirm-exit --no-banner --quick --ext=autoreload --InteractiveShellApp.exec_lines=\"%autoreload 2\""
 
 # git
 alias g="git"
