@@ -27,6 +27,12 @@ if [ ! -f ~/.zplug/init.zsh ]; then
         ~/.zplug
 fi
 
+# install fzf
+if [ ! -f ~/.fzf/bin/fzf ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install
+fi
+
 #if [[ ! -f ~/.zplug/init.zsh ]]; then
 #    echo "zplug: not found" >&2
 #    exit 1

@@ -74,8 +74,7 @@ if s:plug.ready()
     call plug#begin(s:plug.base)
 
     " file and directory
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+    Plug '~/.fzf'
     Plug 'junegunn/fzf.vim'
 
     " compl
@@ -94,6 +93,7 @@ if s:plug.ready()
         Plug 'kkoomen/vim-doge'
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8 isort'}
     endif
+    Plug 'vim-test/vim-test'
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -284,6 +284,25 @@ if s:plug.is_installed('ale')
     let g:ale_python_flake8_options = '--max-line-length=120'
     let g:ale_python_autopep8_options = '--max-line-length 120'
     let g:ale_python_black_options = '--line-length 120'
+endif
+
+if s:plug.is_installed('vim-test')
+    let test#strategy='vimterminal'
+    let test#python#runner='pytest'
+    nmap <silent> t<C-n> :TestNearest<CR>
+    nmap <silent> t<C-f> :TestFile<CR>
+    nmap <silent> t<C-a> :TestSuite<CR>
+    nmap <silent> t<C-l> :TestLast<CR>
+    nmap <silent> t<C-g> :TestVisit<CR>
+endif
+
+if s:plug.is_installed('fzf.vim')
+    " Launch fzf with CTRL+P.
+    nnoremap <silent> <C-p> :Files<CR>
+
+    " Enable preview window
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 endif
 
 if s:plug.is_installed('vim-colors-solarized')

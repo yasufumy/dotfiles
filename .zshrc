@@ -80,3 +80,5 @@ if [[ -f ~/.zplug/init.zsh ]]; then
     #fi
     zplug load
 fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
