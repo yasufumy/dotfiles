@@ -9,6 +9,7 @@ alias lla="ls -alFh"
 alias rm="rm -iv"
 alias mv="mv -iv"
 alias cp="cp -iv"
+alias mkdir="mkdir -p"
 alias purge="sudo purge"
 alias grep="grep --color"
 
