@@ -90,10 +90,10 @@ if s:plug.ready()
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
     if v:version >= 800
-        Plug 'kkoomen/vim-doge'
         Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8 isort'}
     endif
     Plug 'vim-test/vim-test'
+    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
     " colorscheme
     Plug 'altercation/vim-colors-solarized'
@@ -267,6 +267,7 @@ if s:plug.is_installed('ale')
     let g:ale_lint_on_save = 1
     " doesn't check when conding
     let g:ale_lint_on_text_changed = 'never'
+    let g:ale_lint_on_insert_leave = 0
     " doesn't check when a file is opend
     let g:ale_lint_on_enter = 0
     " open error/warning window
