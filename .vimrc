@@ -238,10 +238,6 @@ if s:plug.is_installed('vim-smartchr')
     inoremap <expr> , smartchr#loop(', ', ',')
 endif
 
-if s:plug.is_installed('vim-doge')
-    let g:doge_doc_standard_python = 'google'
-endif
-
 if s:plug.is_installed('vim-airline')
     let g:airline_theme = 'powerlineish'
     let g:airline_left_sep = ''
@@ -295,6 +291,12 @@ if s:plug.is_installed('vim-test')
     nmap <silent> t<C-a> :TestSuite<CR>
     nmap <silent> t<C-l> :TestLast<CR>
     nmap <silent> t<C-g> :TestVisit<CR>
+endif
+
+if s:plug.is_installed('ultisnips')
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsJumpForwardTrigger="<c-b>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 endif
 
 if s:plug.is_installed('fzf.vim')
