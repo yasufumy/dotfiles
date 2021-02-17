@@ -1,7 +1,26 @@
+### General
 snippet addarg "addarg" b
-add_argument("${1:name}", type=${2:type}, default=${3:default}, required=${4:required}, help="${5:help}")
+add_argument("${1:short_name}", "${2:long_name}", type=${3:type}, default=${4:default}, required=${5:required}, help="${6:help}")
 endsnippet
 
 snippet parsearg "parsearg" b
-${1:var} = ${2:parser}.parse_args()
+${1:name} = ${2:parser}.parse_args()
+endsnippet
+
+snippet v "v" b
+${1:name} = ${2:value}
+endsnippet
+
+
+### Competitive programming
+snippet ii "ii" b
+${1:name} = int(input())
+endsnippet
+
+snippet miis "miis" b
+${1:name} = map(int, input().split())
+endsnippet
+
+snippet lmiis "lmiis" b
+${1:name} = list(map(int, input().split()))
 endsnippet
