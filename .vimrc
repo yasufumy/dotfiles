@@ -96,12 +96,13 @@ if s:plug.ready()
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
     " colorscheme
-    Plug 'altercation/vim-colors-solarized'
-    " Plug 'cocopon/iceberg.vim'
+    " Plug 'altercation/vim-colors-solarized'
+    Plug 'cocopon/iceberg.vim'
 
     " statusline
     Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    " Plug 'vim-airline/vim-airline-themes'
+    Plug 'gkeep/iceberg-dark'
 
     augroup load_us_ycm
         autocmd!
@@ -239,7 +240,8 @@ if s:plug.is_installed('vim-smartchr')
 endif
 
 if s:plug.is_installed('vim-airline')
-    let g:airline_theme = 'powerlineish'
+    " let g:airline_theme = 'powerlineish'
+    let g:airline_theme = 'icebergDark'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
     let g:airline_left_alt_sep = ''
@@ -308,13 +310,13 @@ if s:plug.is_installed('fzf.vim')
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 endif
 
-if s:plug.is_installed('vim-colors-solarized')
-    " set colorscheme solarized
-    colorscheme solarized
-endif
-" if s:plug.is_installed('iceberg.vim')
-"     colorscheme iceberg
+" if s:plug.is_installed('vim-colors-solarized')
+"     " set colorscheme solarized
+"     colorscheme solarized
 " endif
+if s:plug.is_installed('iceberg.vim')
+    colorscheme iceberg
+endif
 
 " Netrw tree view
 let g:netrw_liststyle = 3
