@@ -1,6 +1,6 @@
 ### General
 snippet addarg "addarg" b
-${1:variable_name}.add_argument("${2:short_name}", "${3:long_name}", type=${4:type}, default=${5:default}, required=${6:required}, help="${7:help}")
+${1:parser}.add_argument("${2:short_name}", "${3:long_name}", type=${4:type}, default=${5:default}, required=${6:required}, help="${7:help}")
 endsnippet
 
 snippet parsearg "parsearg" b
@@ -8,18 +8,32 @@ ${1:name} = ${2:parser}.parse_args()
 endsnippet
 
 snippet def "function" b
-def ${1:function_name}(${2:arguments}) -> ${3:return_type}:
-	"""${4:explanation}"""
-	$0
+def ${1:function_name}(`!p snip.rv = "self, " if snip.indent else ""`$2) -> ${3:None}:
+	${0:...}
 endsnippet
-
 
 snippet class "class" b
 class ${1:class_name}:
-	"""${2:explanation}"""
-	$0
+	${0:...}
 endsnippet
 
+snippet noqa "NOQA"
+ # NOQA
+endsnippet
+
+snippet todo "todo" b
+# TODO: $0
+endsnippet
+
+snippet fixme "fix me" b
+# FIXME: $0
+endsnippet
+
+snippet asstr
+"""
+${VISUAL}
+"""
+endsnippet
 
 ### Competitive programming
 snippet ii "ii" b
