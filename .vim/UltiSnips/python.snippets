@@ -1,14 +1,23 @@
 ### General
 snippet addarg "addarg" b
-add_argument("${1:short_name}", "${2:long_name}", type=${3:type}, default=${4:default}, required=${5:required}, help="${6:help}")
+${1:variable_name}.add_argument("${2:short_name}", "${3:long_name}", type=${4:type}, default=${5:default}, required=${6:required}, help="${7:help}")
 endsnippet
 
 snippet parsearg "parsearg" b
 ${1:name} = ${2:parser}.parse_args()
 endsnippet
 
-snippet v "v" b
-${1:name} = ${2:value}
+snippet def "function" b
+def ${1:function_name}(${2:arguments}) -> ${3:return_type}:
+	"""${4:explanation}"""
+	$0
+endsnippet
+
+
+snippet class "class" b
+class ${1:class_name}:
+	"""${2:explanation}"""
+	$0
 endsnippet
 
 
