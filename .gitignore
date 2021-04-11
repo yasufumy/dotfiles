@@ -5,3 +5,4 @@ __pycache__/
 .vim/autoload/*
 .vim/plugged/*
 .vim/undo/*
+.vim/.netrwhist
