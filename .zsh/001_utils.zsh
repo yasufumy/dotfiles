@@ -3,11 +3,13 @@ if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
     # For git-cloned pyenv.
     path=(${HOME}/.pyenv/bin(N-/^W) ${path})
     export PYENV_ROOT=$(pyenv root)
-    eval "$(pyenv init - --no-rehash)"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
 elif (( $+commands[pyenv] )); then
     # For Homebrew installed pyenv.
     export PYENV_ROOT=$(pyenv root)
-    eval "$(pyenv init - --no-rehash)"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
 fi
 
 # setup nvm
