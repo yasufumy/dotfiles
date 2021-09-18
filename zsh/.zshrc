@@ -225,6 +225,8 @@ fi
 
 # Load zinit
 [ -f ~/.zinit/bin/zinit.zsh ] && . ~/.zinit/bin/zinit.zsh
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load plugins
 zinit light "zsh-users/zsh-completions"
