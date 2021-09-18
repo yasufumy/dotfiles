@@ -6,3 +6,6 @@ __pycache__/
 .vim/plugged/*
 .vim/undo/*
 .vim/.netrwhist
+zsh/.zcompdump
+zsh/.zsh_history
+zsh/.zsh_sessions/*
