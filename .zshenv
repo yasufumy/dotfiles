@@ -1,25 +1,5 @@
-# setting path
-typeset -gx -U path
-path=( \
-    /usr/sbin(N-/) \
-    /usr/local/bin(N-/) \
-    ~/.zplug/bin(N-/) \
-    "$path[@]" \
-    )
-# setting fpath
-typeset -gx -U fpath
-fpath=( \
-     ~/.zsh/completion(N-/) \
-     /usr/local/share/zsh/site-functions(N-/) \
-     $fpath \
-     )
-
-# autoload
-autoload -Uz run-help
-autoload -Uz add-zsh-hook
-autoload -Uz colors && colors
-#autoload -Uz compinit && compinit -u
-autoload -Uz is-at-least
+# path to
+export ZDOTDIR="${HOME}/.dotfiles/zsh"
 
 # LANGUAGE must be set by en_US
 export LANGUAGE="en_US.UTF-8"
@@ -28,15 +8,7 @@ export LC_ALL="${LANGUAGE}"
 export LC_CTYPE="${LANGUAGE}"
 
 # path
-setopt no_global_rcs
 export PATH="${HOME}/.dotfiles/bin:${PATH}"
-# add the path to linuxbrew if it exists
-if [[ -x "${HOME}/.linuxbrew/bin/brew" ]]; then
-    export PATH="${HOME}/.linuxbrew/bin:${PATH}"
-    export PATH="${HOME}/.linuxbrew/sbin:${PATH}"
-fi
-# for pipx
-export PATH="${HOME}/.local/bin:${PATH}"
 
 # Editor
 export EDITOR=vim
