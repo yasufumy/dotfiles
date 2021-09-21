@@ -235,7 +235,8 @@ zinit light "zsh-users/zsh-history-substring-search"
 
 zinit light "zsh-users/zsh-autosuggestions"
 
-zinit light "zsh-users/zsh-syntax-highlighting"
+# zinit light "zsh-users/zsh-syntax-highlighting"
+zinit light "zdharma/fast-syntax-highlighting"
 
 zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 zinit light sindresorhus/pure
@@ -244,6 +245,13 @@ zinit light sindresorhus/pure
 zinit ice as'null' depth='1' atinit'export PATH="${PATH:+${PATH}:}$PWD/bin"' \
     atclone'./install' atpull'%atclone' multisrc'shell/*.zsh'
 zinit light junegunn/fzf
+
+# Install completions
+# zinit ice as"completion"
+# zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+# 
+# zinit ice as"completion"
+# zinit snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
 
 # Keybindings for substring search
 has 'history-substring-search-up' &&
