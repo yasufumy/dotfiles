@@ -78,10 +78,10 @@ if s:plug.ready()
     Plug 'junegunn/fzf.vim'
 
     " compl
-    if v:version >= 800
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    endif
-    Plug 'davidhalter/jedi-vim', {'for': 'python', 'do': 'pip install jedi'}
+    " if v:version >= 800
+    "     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    " endif
+    Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
     " useful
     Plug 'tpope/vim-surround'
@@ -90,7 +90,7 @@ if s:plug.ready()
     Plug 'easymotion/vim-easymotion'
     Plug 'kana/vim-smartchr', {'on': []}
     if v:version >= 800
-        Plug 'w0rp/ale', {'do': 'pip install flake8 autopep8 isort'}
+        Plug 'w0rp/ale'
     endif
     Plug 'vim-test/vim-test'
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -280,9 +280,9 @@ if s:plug.is_installed('ale')
     " setup for python
     let g:ale_linters = {'python': ['flake8', 'mypy']}
     let g:ale_fixers = {'python': ['autopep8', 'isort', 'black']}
-    let g:ale_python_flake8_options = '--max-line-length=120'
-    let g:ale_python_autopep8_options = '--max-line-length 120'
-    let g:ale_python_black_options = '--line-length 120'
+    "let g:ale_python_flake8_options = '--max-line-length=120'
+    "let g:ale_python_autopep8_options = '--max-line-length 120'
+    "let g:ale_python_black_options = '--line-length 120'
 endif
 
 if s:plug.is_installed('vim-test')

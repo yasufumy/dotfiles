@@ -1,7 +1,7 @@
 DOTPATH=~/.dotfiles
 GITHUB_URL="https://github.com/yasufumy/dotfiles.git"
 
-# use git if it's avaiable
+# use git if it's available
 if type "git" >/dev/null 2>&1; then
     git clone --recursive "$GITHUB_URL" "$DOTPATH"
 else
@@ -20,39 +20,10 @@ for f in .??*; do
     ln -snfv "$DOTPATH/$f" "$HOME/$f"
 done
 
-# install zplug
-if [ ! -f ~/.zplug/init.zsh ]; then
-    git clone \
-        https://github.com/zplug/zplug \
-        ~/.zplug
+# Install zinit
+if [ ! -f ~/.zinit/bin/zinit.zsh ]; then
+    mkdir ~/.zinit
+    git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
 fi
-
-# install fzf
-if [ ! -f ~/.fzf/bin/fzf ]; then
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-    ~/.fzf/install
-fi
-
-#if [[ ! -f ~/.zplug/init.zsh ]]; then
-#    echo "zplug: not found" >&2
-#    exit 1
-#fi
-#
-#source ~/.zplug/init.zsh
-#
-#if [[ -f $DOTPATH/.zsh/zplug.zsh ]]; then
-#    export ZPLUG_LOADFILE="$DOTPATH/.zsh/zplug.zsh"
-#fi
-#
-#if ! zplug check --verbose; then
-#    printf "Install? [y/N]: "
-#    if read -q; then
-#        echo; zplug install
-#    else
-#        echo
-#    fi
-#fi
-#
-#zplug load --verbose
 
 exec $SHELL

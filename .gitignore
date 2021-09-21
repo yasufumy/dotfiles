@@ -9,3 +9,4 @@ __pycache__/
 zsh/.zcompdump
 zsh/.zsh_history
 zsh/.zsh_sessions/*
+zsh/.zcompcache/*
