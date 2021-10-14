@@ -1,49 +1,69 @@
-### General
-snippet addarg "addarg" b
+context "python_expression"
+global !p
+def to_docstring(raw, snip):
+	args = re.findall("(\w+(?=:))", raw)
+	if not args:
+		args = [arg.strip() for arg in raw.split(",") if arg.strip()]
+
+	if not args:
+		snip.rv += '"""'
+		return
+
+	snip.rv = "\n"
+	snip.shift()
+
+	snip += "Args:"
+	snip.shift()
+	for arg in args:
+		snip += f"{arg}: TODO"
+	snip.unshift()
+
+	snip += '"""'
+endglobal
+
+# General
+snippet paa "parser.add_argument" b
 ${1:parser}.add_argument("${2:short_name}", "${3:long_name}", type=${4:type}, default=${5:default}, required=${6:required}, help="${7:help}")
 endsnippet
 
-snippet parsearg "parsearg" b
+snippet ppa "parser.parse_args" b
 ${1:name} = ${2:parser}.parse_args()
 endsnippet
 
-snippet def "function" b
-def ${1:function_name}(`!p snip.rv = "self, " if snip.indent else ""`$2) -> ${3:None}:
+snippet def "define a function" bA
+def ${1:function_name}(`!p snip.rv = "self" if snip.indent else ""`${2}) -> ${3:None}:
+	"""${4:TODO: Docstring for $1.}`!p to_docstring(t[2], snip)`
 	${0:...}
 endsnippet
 
-snippet class "class" b
+snippet class "define a class" bA
 class ${1:class_name}:
+	"""${2:TODO: Docstring for $1.}"""
+
 	${0:...}
 endsnippet
 
-snippet noqa "NOQA"
- # NOQA
+snippet iclass "define a class with an initializer" bA
+class ${1:class_name}:
+	"""${2: TODO: Docstring for $1.}`!p to_docstring(t[3], snip)`
+
+	def __init__(self${3}) -> None:
+		${0:...}
 endsnippet
 
-snippet todo "todo" b
-# TODO: $0
+# Competitive programming
+snippet i "input" b
+${1:name} = input()
 endsnippet
 
-snippet fixme "fix me" b
-# FIXME: $0
-endsnippet
-
-snippet asstr
-"""
-${VISUAL}
-"""
-endsnippet
-
-### Competitive programming
-snippet ii "ii" b
+snippet ii "int input" b
 ${1:name} = int(input())
 endsnippet
 
-snippet miis "miis" b
+snippet miis "map int input split" b
 ${1:name} = map(int, input().split())
 endsnippet
 
-snippet lmiis "lmiis" b
+snippet lmiis "list map int input split" b
 ${1:name} = list(map(int, input().split()))
 endsnippet
