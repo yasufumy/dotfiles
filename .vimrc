@@ -299,6 +299,7 @@ if s:plug.is_installed('ultisnips')
     let g:UltiSnipsExpandTrigger="<tab>"
     let g:UltiSnipsJumpForwardTrigger="<c-b>"
     let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+    let g:UltiSnipsEditSplit="vertical"
 endif
 
 if s:plug.is_installed('fzf.vim')
