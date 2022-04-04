@@ -1,3 +1,7 @@
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 function is_exists() {
     type "$1" >/dev/null 2>&1; return $?;
 }
@@ -238,8 +242,10 @@ zinit light "zsh-users/zsh-autosuggestions"
 # zinit light "zsh-users/zsh-syntax-highlighting"
 zinit light "zdharma/fast-syntax-highlighting"
 
-zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-zinit light sindresorhus/pure
+# zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
+# zinit light sindresorhus/pure
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Install fzf
 zinit ice as'null' depth='1' atinit'export PATH="${PATH:+${PATH}:}$PWD/bin"' \
@@ -268,3 +274,6 @@ has 'history-substring-search-up' &&
     bindkey  '^P' history-substring-search-up
 has 'history-substring-search-down' &&
     bindkey  '^N' history-substring-search-down
+
+# To customize prompt, run `p10k configure` or edit ~/.dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/.dotfiles/zsh/.p10k.zsh ]] || source ~/.dotfiles/zsh/.p10k.zsh
