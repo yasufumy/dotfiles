@@ -1,24 +1,33 @@
 context "python_expression"
 global !p
-def to_docstring(raw, snip):
-	args = re.findall("(\w+(?=:))", raw)
-	if not args:
-		args = [arg.strip() for arg in raw.split(",") if arg.strip()]
-
-	if not args:
-		snip.rv += '"""'
-		return
-
-	snip.rv = "\n"
-	snip.shift()
-
-	snip += "Args:"
-	snip.shift()
-	for arg in args:
-		snip += f"{arg}: TODO"
-	snip.unshift()
-
-	snip += '"""'
+def write_docstring(raw_args, raw_return, snip):
+	args = re.findall("(\w+(?=:))", raw_args) or \
+		[arg.strip() for arg in raw_args.split(",") if arg.strip()]
+	
+	ok_args =args and args[0] != "self" or len(args) > 1
+	if ok_args:
+		snip.rv += "\n" + snip.mkline("", indent="")
+		snip >> 1
+		snip += "Args:"
+		snip >> 1
+		for arg in args:
+			if arg == "self":
+				continue
+			snip += arg + f": TODO: Docstring for {arg}."
+		snip << 2
+	
+	if raw_return != "None":
+		snip.rv += "\n" + snip.mkline("", indent="")
+		snip >> 1
+		snip += "Returns:"
+		snip >> 1
+		snip += "TODO: Docstring."
+		snip << 2
+	if ok_args or raw_return != "None":
+		snip.rv += "\n" + snip.mkline("", indent="")
+		snip >> 1
+		
+	snip.rv += snip.mkline('"""')
 endglobal
 
 # General
@@ -30,22 +39,36 @@ snippet ppa "parser.parse_args" b
 ${1:name} = ${2:parser}.parse_args()
 endsnippet
 
-snippet def "define a function" bA
-def ${1:function_name}(`!p snip.rv = "self" if snip.indent else ""`${2}) -> ${3:None}:
-	"""${4:TODO: Docstring for $1.}`!p to_docstring(t[2], snip)`
+snippet def "define a function" b
+def ${1:function_name}(${2}) -> ${3:None}:
+	"""${4:TODO: Docstring for $1.}`!p write_docstring(t[2], t[3], snip)`
 	${0:...}
 endsnippet
 
-snippet class "define a class" bA
+snippet sdef "define a staticmethod" b
+@staticmethod
+def ${1:function_name}(${2}) -> ${3:None}:
+	"""${4:TODO: Docstring for $1.}`!p write_docstring(t[2], t[3], snip)`
+	${0:...}
+endsnippet
+
+snippet cdef "define a classmethod" b
+@classmethod
+def ${1:function_name}(cls${2}) -> ${3:None}:
+	"""${4:TODO: Docstring for $1.}`!p write_docstring(t[2], t[3], snip)`
+	${0:...}
+endsnippet
+
+snippet class "define a class" b
 class ${1:class_name}:
 	"""${2:TODO: Docstring for $1.}"""
 
 	${0:...}
 endsnippet
 
-snippet iclass "define a class with an initializer" bA
+snippet classi "define a class with an initializer" b
 class ${1:class_name}:
-	"""${2: TODO: Docstring for $1.}`!p to_docstring(t[3], snip)`
+	"""${2: TODO: Docstring for $1.}`!p write_docstring(t[3], "None", snip)`
 
 	def __init__(self${3}) -> None:
 		${0:...}
