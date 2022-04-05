@@ -104,6 +104,8 @@ if s:plug.ready()
     " Plug 'vim-airline/vim-airline-themes'
     Plug 'gkeep/iceberg-dark'
 
+    Plug 'google/vim-jsonnet'
+
     augroup load_us_ycm
         autocmd!
         autocmd InsertEnter * call plug#load('vim-smartchr')
