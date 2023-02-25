@@ -78,8 +78,7 @@ function gi() {
 }
 
 # Completion
-autoload -U compinit
-compinit
+autoload -Uz compinit && compinit
 _comp_options+=(globdots)
 # Important
 zstyle ':completion:*:default' menu select=2
@@ -245,12 +244,18 @@ zinit light "zdharma/fast-syntax-highlighting"
 # zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
 # zinit light sindresorhus/pure
 
+# https://zdharma-continuum.github.io/zinit/wiki/GALLERY/
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # Install fzf
 zinit ice as'null' depth='1' atinit'export PATH="${PATH:+${PATH}:}$PWD/bin"' \
     atclone'./install' atpull'%atclone' multisrc'shell/*.zsh'
 zinit light junegunn/fzf
+
+# Install asdf
+zinit ice as'program' src'asdf.sh' \
+    atload'fpath=(${ASDF_DIR}/completions $fpath); autoload -Uz compinit && compinit'
+zinit light asdf-vm/asdf
 
 # Install completions
 # zinit ice as"completion"
@@ -277,3 +282,5 @@ has 'history-substring-search-down' &&
 
 # To customize prompt, run `p10k configure` or edit ~/.dotfiles/zsh/.p10k.zsh.
 [[ ! -f ~/.dotfiles/zsh/.p10k.zsh ]] || source ~/.dotfiles/zsh/.p10k.zsh
+
+# [[ ! -f ~/.asdf/asdf.sh ]] || source "$HOME/.asdf/asdf.sh"
