@@ -75,12 +75,17 @@ class ${1:class_name}:
 endsnippet
 
 # Competitive programming
-snippet i "input" b
-${1:name} = input()
+snippet ir "input rstrip" b
+${1:S} = input().rstrip()
 endsnippet
 
 snippet ii "int input" b
-${1:name} = int(input())
+${1:N} = int(input())
+endsnippet
+
+snippet is "input split" b
+${1:X} = input().split()
+>>>>>>> 64ddf7d (Update Python snippets)
 endsnippet
 
 snippet miis "map int input split" b
@@ -88,5 +93,13 @@ ${1:name} = map(int, input().split())
 endsnippet
 
 snippet lmiis "list map int input split" b
-${1:name} = list(map(int, input().split()))
+${1:A} = [*map(int, input().split())]
+endsnippet
+
+snippet g "graph" b
+${1:G} = [[] for _ in range(${2:N})]
+endsnippet
+
+snippet bp "breakpoint" b
+breakpoint()
 endsnippet
