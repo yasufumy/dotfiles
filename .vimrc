@@ -281,7 +281,7 @@ if s:plug.is_installed('ale')
     nmap <silent> <C-j> <Plug>(ale_next_wrap)
     " setup for python
     let g:ale_linters = {'python': ['ruff', 'mypy']}
-    let g:ale_fixers = {'python': ['isort', 'black']}
+    let g:ale_fixers = {'python': ['ruff', 'black']}
     "let g:ale_python_flake8_options = '--max-line-length=120'
     "let g:ale_python_autopep8_options = '--max-line-length 120'
     "let g:ale_python_black_options = '--line-length 120'
