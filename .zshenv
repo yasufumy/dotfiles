@@ -7,9 +7,6 @@ export LANG="${LANGUAGE}"
 export LC_ALL="${LANGUAGE}"
 export LC_CTYPE="${LANGUAGE}"
 
-# path
-export PATH="${HOME}/.dotfiles/bin:${PATH}"
-
 # Editor
 export EDITOR=vim
 export CVSEDITOR="${EDITOR}"
