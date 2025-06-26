@@ -180,7 +180,7 @@ prompt_git() {
     fi
 
     # --- Assemble and Print the Status ---
-    echo "%F{magenta}${branch_info}%f${ahead_behind_info}${dirty_info}"
+    echo " %F{magenta}${branch_info}%f${ahead_behind_info}${dirty_info}"
 }
 
 prompt_setup() {
@@ -191,8 +191,7 @@ prompt_setup() {
     PROMPT='%(?.%F{green}.%F{red})>%f '
 
     # Define the right prompt (RPROMPT).
-    # Shows: [optional exit code] /path/to/dir git-status
-    RPROMPT='%(?..%F{red}%?%f )%F{blue}%~%f $(prompt_git)'
+    RPROMPT='%(?..%F{red}%?%f )%F{blue}%~%f$(prompt_git)'
 }
 
 prompt_setup
