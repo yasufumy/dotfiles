@@ -1,7 +1,3 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 function is_exists() {
     type "$1" >/dev/null 2>&1; return $?;
 }
@@ -12,6 +8,11 @@ function has() {
 # Check OS
 function is_osx() { [[ $OSTYPE == darwin* ]]; }
 function is_linux() { [[ $OSTYPE == linux* ]]; }
+
+# Homebrew
+if is_osx; then
+    eval "$(brew shellenv)"
+fi
 
 # Aliases
 if is_linux; then
@@ -55,7 +56,7 @@ alias gph="git push"
 alias gpl="git pull"
 alias gbr="git branch"
 alias gbra="git branch -a"
-alias gbrd="git branch -d"
+alias gbrd="git branch -D"
 alias gbrm="git branch -m"
 alias gco="git checkout"
 alias gcob="git checkout -b"
@@ -77,7 +78,129 @@ function gi() {
     curl -sL https://www.gitignore.io/api/$@;
 }
 
+# Prompt
+prompt_git() {
+    # Use LC_ALL=C for consistent output. --porcelain=v1 is the default, but let's be explicit.
+    # -b shows branch info.
+    local git_output
+    git_output=$(LC_ALL=C git status --porcelain --branch 2>/dev/null)
+
+    # Exit immediately if not in a Git repository.
+    [[ -z "$git_output" ]] && return
+
+    # The first line contains branch and remote status.
+    local first_line=${git_output%%$'\n'*}
+    # The rest of the lines indicate dirty status (untracked, modified, etc.).
+    local rest_of_lines
+    [[ $git_output == *$'\n'* ]] && rest_of_lines=${git_output#*$'\n'} || rest_of_lines=""
+
+    local branch_info
+    local ahead_behind_info
+    local dirty_info="" # Initialize as empty
+
+    # --- Parse the first line for branch and remote status ---
+    # Remove the '## ' prefix
+    local line_no_prefix=${first_line#\#\# }
+
+    if [[ "$line_no_prefix" == "HEAD (no branch)" ]]; then
+        # Case: Detached HEAD. Show the short commit hash.
+        branch_info="@$(git rev-parse --short HEAD 2>/dev/null)"
+    else
+        # Case: On a branch.
+        local branch_part
+        local status_part
+
+        if [[ "$line_no_prefix" == *" ["* ]]; then
+            status_part=${line_no_prefix#* \[}
+            status_part=${status_part%\]}
+            branch_part=${line_no_prefix% \[*}
+        else
+            branch_part="$line_no_prefix"
+            status_part=""
+        fi
+
+        if [[ "$branch_part" == *...* ]]; then
+            branch_info="${branch_part%%...*}"
+        else
+            branch_info="${branch_part}"
+        fi
+
+        if [[ -n "$status_part" ]]; then
+            local ahead behind
+            if [[ "$status_part" == *"ahead "* ]]; then
+                ahead=${status_part#*ahead }
+                ahead=${ahead%%,*}
+                ahead_behind_info+=" %F{cyan}↑${ahead// /}%f"
+            fi
+            if [[ "$status_part" == *"behind "* ]]; then
+                behind=${status_part#*behind }
+                behind=${behind%%,*}
+                ahead_behind_info+=" %F{cyan}↓${behind// /}%f"
+            fi
+        fi
+    fi
+
+    # --- Check for a dirty working directory with detailed status ---
+    if [[ -n "$rest_of_lines" ]]; then
+        local added_count=0
+        local modified_count=0
+        local unmerged_count=0
+        local untracked_count=0
+
+        # Use a loop for performance, avoiding forks to external commands.
+        # The 'f' flag splits the string by newlines into an array.
+        for line in "${(@f)rest_of_lines}"; do
+            # Use a case statement on the first two characters for efficiency.
+            # This covers all states from `git status --porcelain`.
+            case "${line:0:2}" in
+                '??') (( untracked_count++ ));;
+                'UU') (( unmerged_count++ ));;
+                # Renamed files ('R ', 'RM') are now counted as added files.
+                'M ' | 'A ' | 'AM' | 'R ' | 'RM') (( added_count++ ));;
+                # Any other non-blank status code indicates a modification.
+                # This includes M ,  M, MM,  T (type change), etc.
+                *) (( modified_count++ ));;
+            esac
+        done
+
+        # --- Build the dirty_info string in a logical order ---
+        if (( unmerged_count > 0 )); then
+            # Using a Unicode symbol for unmerged/conflicts.
+            dirty_info+=" %F{yellow}~${unmerged_count}%f"
+        fi
+        if (( added_count > 0 )); then
+            dirty_info+=" %F{green}+${added_count}%f"
+        fi
+        if (( modified_count > 0 )); then
+            dirty_info+=" %F{yellow}!${modified_count}%f"
+        fi
+        if (( untracked_count > 0 )); then
+            dirty_info+=" %F{cyan}?${untracked_count}%f"
+        fi
+    fi
+
+    # --- Assemble and Print the Status ---
+    echo "%F{magenta}${branch_info}%f${ahead_behind_info}${dirty_info}"
+}
+
+prompt_setup() {
+    # Enable prompt substitution.
+    setopt PROMPT_SUBST
+
+    # Define the left prompt. The '>' is green on success, red on failure.
+    PROMPT='%(?.%F{green}.%F{red})>%f '
+
+    # Define the right prompt (RPROMPT).
+    # Shows: [optional exit code] /path/to/dir git-status
+    RPROMPT='%(?..%F{red}%?%f )%F{blue}%~%f $(prompt_git)'
+}
+
+prompt_setup
+
 # Completion
+if has 'brew'; then
+    fpath=($DOTFILES/zsh/plugins/zsh-completions $fpath)
+fi
 autoload -Uz compinit && compinit
 _comp_options+=(globdots)
 # Important
@@ -213,56 +336,13 @@ setopt hist_verify
 # Enable history system like a Bash
 setopt bang_hist
 
-# Setup pyenv if it exists
-if [[ -x "${HOME}/.pyenv/bin/pyenv" ]]; then
-    # For git-cloned pyenv.
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-fi
-if has 'pyenv'; then
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init - --no-rehash)"
+# Plugins
+test -f $HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh && source "$_"
+test -f $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source "$_"
+test -f $HOMEBREW_PREFIX/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh && source "$_"
 
-    RPROMPT='%F{white}(py:$(pyenv version-name))%f'
-fi
-
-# Load zinit
-[ -f ~/.zinit/bin/zinit.zsh ] && . ~/.zinit/bin/zinit.zsh
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load plugins
-zinit light "zsh-users/zsh-completions"
-
-zinit light "zsh-users/zsh-history-substring-search"
-
-zinit light "zsh-users/zsh-autosuggestions"
-
-# zinit light "zsh-users/zsh-syntax-highlighting"
-zinit light "zdharma/fast-syntax-highlighting"
-
-# zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-# zinit light sindresorhus/pure
-
-# https://zdharma-continuum.github.io/zinit/wiki/GALLERY/
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# Install fzf
-zinit ice as'null' depth='1' atinit'export PATH="${PATH:+${PATH}:}$PWD/bin"' \
-    atclone'./install' atpull'%atclone' multisrc'shell/*.zsh'
-zinit light junegunn/fzf
-
-# Install asdf
-zinit ice as'program' src'asdf.sh' \
-    atload'fpath=(${ASDF_DIR}/completions $fpath); autoload -Uz compinit && compinit'
-zinit light asdf-vm/asdf
-
-# Install completions
-# zinit ice as"completion"
-# zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-# 
-# zinit ice as"completion"
-# zinit snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
+# fzf
+has 'fzf' && source <(fzf --zsh)
 
 # Keybindings for substring search
 has 'history-substring-search-up' &&
@@ -279,8 +359,3 @@ has 'history-substring-search-up' &&
     bindkey  '^P' history-substring-search-up
 has 'history-substring-search-down' &&
     bindkey  '^N' history-substring-search-down
-
-# To customize prompt, run `p10k configure` or edit ~/.dotfiles/zsh/.p10k.zsh.
-[[ ! -f ~/.dotfiles/zsh/.p10k.zsh ]] || source ~/.dotfiles/zsh/.p10k.zsh
-
-# [[ ! -f ~/.asdf/asdf.sh ]] || source "$HOME/.asdf/asdf.sh"
