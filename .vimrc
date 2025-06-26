@@ -74,14 +74,8 @@ if s:plug.ready()
     call plug#begin(s:plug.base)
 
     " file and directory
-    Plug '~/.fzf'
+    Plug '$HOMEBREW_PREFIX/opt/fzf'
     Plug 'junegunn/fzf.vim'
-
-    " compl
-    " if v:version >= 800
-    "     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " endif
-    Plug 'davidhalter/jedi-vim', {'for': 'python'}
 
     " useful
     Plug 'tpope/vim-surround'
@@ -96,12 +90,10 @@ if s:plug.ready()
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
     " colorscheme
-    " Plug 'altercation/vim-colors-solarized'
     Plug 'cocopon/iceberg.vim'
 
     " statusline
     Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
     Plug 'gkeep/iceberg-dark'
 
     Plug 'google/vim-jsonnet'
