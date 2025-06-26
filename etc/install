@@ -20,10 +20,4 @@ for f in .??*; do
     ln -snfv "$DOTPATH/$f" "$HOME/$f"
 done
 
-# Install zinit
-if [ ! -f ~/.zinit/bin/zinit.zsh ]; then
-    mkdir ~/.zinit
-    git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
-fi
-
 exec $SHELL
