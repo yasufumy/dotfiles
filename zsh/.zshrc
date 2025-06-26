@@ -198,10 +198,12 @@ prompt_setup
 
 # Completion
 if has 'brew'; then
-    fpath=($DOTFILES/zsh/plugins/zsh-completions $fpath)
+    fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
 fi
+
 autoload -Uz compinit && compinit
 _comp_options+=(globdots)
+
 # Important
 zstyle ':completion:*:default' menu select=2
 
