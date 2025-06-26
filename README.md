@@ -3,11 +3,5 @@
 ## Installation
 
 ```
-$ curl -s https://raw.githubusercontent.com/yasufumy/dotfiles/master/etc/install | sh
-```
-
-## Updating
-
-```
-$ make update
+$ curl -s https://raw.githubusercontent.com/yasufumy/dotfiles/main/install.sh | sh
 ```
